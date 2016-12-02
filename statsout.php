@@ -43,7 +43,8 @@ $heroes = array(
           "reaper",
           "tracer",
           "pharah",
-          "soldier76"
+          "soldier76",
+          "sombra"
 	),
 	'defense' => array(
           "bastion",
@@ -76,42 +77,37 @@ $players = array(
 );
 */
 
-echo "player".DELIM."rank".DELIM;
+echo "player".DELIM."Time played".DELIM."Wins".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
+/*
 foreach ($heroes as $class => $herolist)
 {
 	echo "$class games".DELIM."$class wins".DELIM;
 }
+*/
 echo "\n";
 
 foreach ($players as $tag => $name)
 {
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	$ob = get_stats($tag,"stats/competitive");
-	echo $ob->overall_stats->comprank.DELIM;
-	foreach ($heroes as $class => $herolist)
+	$ob = get_stats($tag,"stats/general");
+	$games_played = round($ob->game_stats->damage_done / $ob->average_stats->damage_done_avg);
+	echo $ob->game_stats->time_played.DELIM;
+	echo $ob->game_stats->games_won.DELIM;
+	echo $ob->game_stats->eliminations.DELIM;
+	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,1,".","").DELIM;
+	echo $ob->average_stats->damage_done_avg.DELIM;
+	$dmg_blocked=0;
+	foreach ($heroes as $role => $heroa)
 	{
-		$games = 0;
-		$won = 0;
-		foreach ($herolist as $hero)
+		foreach ($heroa as $hero)
 		{
-			$ob = get_stats($tag,"heroes/$hero/competitive");
-			// $won += $ob->eu->heroes->stats->quickplay->$hero->general_stats->games_won;
-			if ($ob)
-			{
-				$won += $ob->general_stats->games_won;
-				$games += $ob->general_stats->games_played;
-			}
+		$ob_hero = get_stats($tag,"heroes/".$hero);
+		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
 		}
-		echo $games.DELIM.$won.DELIM;
-		
 	}
-	
-/*
-	echo $ob->data->username.";";
-	echo $ob->data->level.";";
-	$hd = api_request($tag,"competitive/hero/Genji%2CMccree%2CPharah%2CReaper%2Csoldier-76%2Csombra%2Ctracer");
-*/	
+	echo number_format($dmg_blocked / $games_played,1,".","").DELIM;
+	echo $ob->average_stats->healing_done_avg;
 	echo "\n";
 }
 
