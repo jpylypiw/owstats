@@ -3,7 +3,7 @@ define('DELIM',',');
 
 function api_request($battletag,$function="general",$apiv="v2")
 {
-	$tag = str_replace("#","-",$battletag);
+	$tag = urlencode(str_replace("#","-",$battletag));
 	$url = "http://localhost:4444/api/$apiv/u/$tag/$function";
 	$json = file_get_contents($url);
 	return $json;
@@ -35,6 +35,11 @@ $players = array(
 'm420p#2639' => "" 
 );
 
+/*
+$players = array(
+'Hardh%C3%B6rnchen#2577' => ""
+)
+*/
 
 $heroes = array(
 	'offense' => array(
@@ -70,6 +75,11 @@ $heroes = array(
 	)
 );
 
+$blocker = array(
+        "mei", "reinhardt", "zarya", "winston", "dva"
+);
+
+
 /*
 $players = array(
 'Iluv#2966' => "", 
@@ -98,13 +108,10 @@ foreach ($players as $tag => $name)
 	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,1,".","").DELIM;
 	echo $ob->average_stats->damage_done_avg.DELIM;
 	$dmg_blocked=0;
-	foreach ($heroes as $role => $heroa)
+	foreach ($blocker as $hero)
 	{
-		foreach ($heroa as $hero)
-		{
 		$ob_hero = get_stats($tag,"heroes/".$hero);
 		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
-		}
 	}
 	echo number_format($dmg_blocked / $games_played,1,".","").DELIM;
 	echo $ob->average_stats->healing_done_avg;
