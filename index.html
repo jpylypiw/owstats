@@ -16,6 +16,7 @@
      }
      body { 
 	   font: 14px/1.4 Georgia, Serif; 
+	   background: url(img/bg.png);
      }
     #page-wrap {
 	  margin: 50px;
@@ -30,6 +31,10 @@
 	table { 
 		width: 100%; 
 		border-collapse: collapse; 
+	}
+	tr {
+		opacity: 0.8;
+		background: #fff; 
 	}
 	/* Zebra striping */
 	tr:nth-of-type(odd) { 
@@ -138,8 +143,6 @@
 
 	<h1>Overwatch stats</h1>
     
-	<p>Click the table header to sort data according to that column</p>
-
 	</div>
 	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript">
@@ -160,11 +163,11 @@
 		                	   headers.attr('class', 'header');
 		                	   
 		                	   if (sortAscending) {
-		                	     rows.sort(function(a, b) { if (parseInt(b[d])>0) { return parseInt(b[d]) < parseInt(a[d]) } else { return b[d] < a[d]; } });
+		                	     rows.sort(function(a, b) { if (parseInt(b[d])>0) { return parseFloat(b[d]) < parseFloat(a[d]) } else { return b[d] < a[d]; } });
 		                	     sortAscending = false;
 		                	     this.className = 'aes';
 		                	   } else {
-		                	     rows.sort(function(a, b) { if (parseInt(b[d])>0) { return parseInt(b[d]) > parseInt(a[d]) } else { return b[d] > a[d]; } });
+		                	     rows.sort(function(a, b) { if (parseFloat(b[d])>0) { return parseFloat(b[d]) > parseFloat(a[d]) } else { return b[d] > a[d]; } });
 //		                		 rows.sort(function(a, b) { return b[d] > a[d]; });
 		                		 sortAscending = true;
 		                		 this.className = 'des';

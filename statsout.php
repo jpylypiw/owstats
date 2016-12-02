@@ -105,7 +105,7 @@ foreach ($players as $tag => $name)
 	echo $ob->game_stats->time_played.DELIM;
 	echo $ob->game_stats->games_won.DELIM;
 	echo $ob->game_stats->eliminations.DELIM;
-	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,1,".","").DELIM;
+	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,5,".","").DELIM;
 	echo $ob->average_stats->damage_done_avg.DELIM;
 	$dmg_blocked=0;
 	foreach ($blocker as $hero)
@@ -113,7 +113,7 @@ foreach ($players as $tag => $name)
 		$ob_hero = get_stats($tag,"heroes/".$hero);
 		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
 	}
-	echo number_format($dmg_blocked / $games_played,1,".","").DELIM;
+	echo number_format($dmg_blocked / $games_played,5,".","").DELIM;
 	echo $ob->average_stats->healing_done_avg;
 	echo "\n";
 }
