@@ -1,4 +1,6 @@
 <?php
+require "config.inc.php";
+
 define('DELIM',',');
 
 function api_request($battletag,$function="general",$apiv="v2")
@@ -13,33 +15,6 @@ function get_stats($battletag,$function="general",$apiv="v2")
 {
 	return json_decode(api_request($battletag,$function));
 }
-
-$players = array(
-'TheBomb#2919' => "TheBomb",
-'DERTYP#2248' => "DerTyp",
-'Daryu#2129' => "Daryu",
-'hawoosin#2541' => "", 
-'Juro#1208'   => "", 
-'hiroyukki#2129' => "", 
-'Shyrogan#2408' => "", 
-'Lynrael#2231' => "", 
-'Thoronga#2172' => "", 
-'Weed4Speed#2694' => "", 
-'Hardhörnchen#2577' => "", 
-'Iluv#2966' => "", 
-'Yeydida#2538' => "", 
-'LordPE#2884' => "", 
-'Kelyrra#21953' => "", 
-'Everose#2269' => "", 
-'Skay#21101' => "", 
-'m420p#2639' => "" 
-);
-
-/*
-$players = array(
-'Hardh%C3%B6rnchen#2577' => ""
-)
-*/
 
 $heroes = array(
 	'offense' => array(
@@ -79,24 +54,10 @@ $blocker = array(
         "mei", "reinhardt", "zarya", "winston", "dva"
 );
 
-
-/*
-$players = array(
-'Iluv#2966' => "", 
-'Juro#1208' => ""
-);
-*/
-
 echo "player".DELIM."Time played".DELIM."Wins".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
-/*
-foreach ($heroes as $class => $herolist)
-{
-	echo "$class games".DELIM."$class wins".DELIM;
-}
-*/
 echo "\n";
 
-foreach ($players as $tag => $name)
+foreach ($player as $tag)
 {
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
