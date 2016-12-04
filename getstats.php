@@ -1,7 +1,7 @@
 <?php
 require "config.inc.php";
+require "db.php";
 
-define('DELIM',',');
 
 function api_request($battletag,$function="general",$apiv="v2")
 {
@@ -54,37 +54,43 @@ $blocker = array(
         "mei", "reinhardt", "zarya", "winston", "dva"
 );
 
-echo "Player".DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
-echo "\n";
-
 foreach ($player as $tag)
 {
+	echo $tag;
 	$a = explode("#", $tag);
-	echo $a[0].DELIM;
 	$ob = get_stats($tag,"stats/general");
 	$games_played = round($ob->game_stats->damage_done / $ob->average_stats->damage_done_avg);
-	echo $games_played.DELIM;
-	echo $ob->game_stats->games_won.DELIM;
-	if ($games_played>0)
-	{
-		echo ($ob->game_stats->games_won / $games_played)*100 . DELIM;
-	} else {
-		echo "0".DELIM;
-	}
-	echo $ob->average_stats->eliminations_avg.DELIM;
-	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,5,".","").DELIM;
-	echo $ob->average_stats->damage_done_avg.DELIM;
 	$dmg_blocked=0;
 	foreach ($blocker as $hero)
 	{
 		$ob_hero = get_stats($tag,"heroes/".$hero);
 		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
+		echo ".";
 	}
-	echo number_format($dmg_blocked / $games_played,5,".","").DELIM;
-	echo $ob->average_stats->healing_done_avg;
+	$db->query(
+	"insert into ow_qm 
+		(`tag`, 
+		`mode`, 
+		`date`, 
+		`wins`, 
+		`games`, 
+		`kills`, 
+		`deaths`, 
+		`damage`, 
+		`blocked`, 
+		`healing`) 
+	values (
+		'$tag',
+		'QM',
+		'".date("Y-m-d")."',
+		".$ob->game_stats->games_won.",
+		".$games_played.",
+		".$ob->game_stats->eliminations.",
+		".$ob->game_stats->deaths.",
+		".$ob->game_stats->damage_done.",
+		".$dmg_blocked.",
+		".$ob->game_stats->healing_done."
+	)");
 	echo "\n";
 }
-
-// echo api_request("Juro#1208","stats");
-
 
