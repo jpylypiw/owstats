@@ -194,7 +194,7 @@
 		    	return d.name;
 		    })
 		    .text(function (d) {
-			if (["K/D Ratio","Eliminations"].indexOf(d.name)>=0 )
+			if (["K/D Ratio","Win ratio","Eliminations"].indexOf(d.name)>=0 )
 			{
 				return parseFloat(d.value).toFixed(2);
 			} 
