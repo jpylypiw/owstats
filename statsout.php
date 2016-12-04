@@ -65,7 +65,7 @@ foreach ($player as $tag)
 	$games_played = round($ob->game_stats->damage_done / $ob->average_stats->damage_done_avg);
 	echo $ob->game_stats->time_played.DELIM;
 	echo $ob->game_stats->games_won.DELIM;
-	echo $ob->game_stats->eliminations.DELIM;
+	echo $ob->average_stats->eliminations_avg.DELIM;
 	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,5,".","").DELIM;
 	echo $ob->average_stats->damage_done_avg.DELIM;
 	$dmg_blocked=0;

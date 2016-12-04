@@ -51,7 +51,7 @@
 	td, th { 
 		padding: 6px; 
 		border: 1px solid #ccc; 
-		text-align: left; 
+		text-align: right; 
 	}
 	
 	th.des:after {
@@ -146,6 +146,11 @@
 	</div>
 	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript">
+
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+	}
+	
 	  d3.csv("stats.csv", function(error, data) {
 		  if (error) throw error;
 		  
@@ -189,6 +194,18 @@
 		    	return d.name;
 		    })
 		    .text(function (d) {
+			if (["K/D Ratio","Eliminations"].indexOf(d.name)>=0 )
+			{
+				return parseFloat(d.value).toFixed(2);
+			} 
+			if (["Blocked","Time played"].indexOf(d.name)>=0)
+			{
+				return numberWithCommas(Math.ceil(d.value));
+			}
+			if (["Wins","Healing","Damage"].indexOf(d.name)>=0)
+			{
+				return numberWithCommas(Math.ceil(d.value));
+			}
 		    	return d.value;
 		    });
 	  });
