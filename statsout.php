@@ -54,7 +54,7 @@ $blocker = array(
         "mei", "reinhardt", "zarya", "winston", "dva"
 );
 
-echo "player".DELIM."Time played".DELIM."Wins".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
+echo "Player".DELIM."Time played".DELIM."Wins".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
 echo "\n";
 
 foreach ($player as $tag)
