@@ -1,20 +1,8 @@
 <?php
 require "config.inc.php";
+require "db.php";
 
 define('DELIM',',');
-
-function api_request($battletag,$function="general",$apiv="v2")
-{
-	$tag = urlencode(str_replace("#","-",$battletag));
-	$url = "http://localhost:4444/api/$apiv/u/$tag/$function";
-	$json = file_get_contents($url);
-	return $json;
-}
-
-function get_stats($battletag,$function="general",$apiv="v2")
-{
-	return json_decode(api_request($battletag,$function));
-}
 
 $heroes = array(
 	'offense' => array(
@@ -50,38 +38,32 @@ $heroes = array(
 	)
 );
 
-$blocker = array(
-        "mei", "reinhardt", "zarya", "winston", "dva"
-);
-
 echo "Player".DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
 echo "\n";
+
+
 
 foreach ($player as $tag)
 {
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	$ob = get_stats($tag,"stats/general");
-	$games_played = round($ob->game_stats->damage_done / $ob->average_stats->damage_done_avg);
+	$q = $db->query("select * from ow_qm where `tag`='$tag' and `mode`='QM' order by `date` DESC limit 1");
+	$r = $q->fetch_object();
+	$games_played = $r->games;
 	echo $games_played.DELIM;
-	echo $ob->game_stats->games_won.DELIM;
+	echo $r->wins.DELIM;
 	if ($games_played>0)
 	{
-		echo ($ob->game_stats->games_won / $games_played)*100 . DELIM;
+		echo ($r->wins / $games_played)*100 . DELIM;
 	} else {
 		echo "0".DELIM;
 	}
-	echo $ob->average_stats->eliminations_avg.DELIM;
-	echo number_format($ob->game_stats->eliminations/$ob->game_stats->deaths,5,".","").DELIM;
-	echo $ob->average_stats->damage_done_avg.DELIM;
-	$dmg_blocked=0;
-	foreach ($blocker as $hero)
-	{
-		$ob_hero = get_stats($tag,"heroes/".$hero);
-		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
-	}
+	echo $r->kills/$games_played . DELIM;
+	echo number_format($r->kills/$r->deaths,5,".","").DELIM;
+	echo $r->damage/$games_played.DELIM;
+	$dmg_blocked=$r->blocked;
 	echo number_format($dmg_blocked / $games_played,5,".","").DELIM;
-	echo $ob->average_stats->healing_done_avg;
+	echo $r->healing / $games_played;
 	echo "\n";
 }
 
