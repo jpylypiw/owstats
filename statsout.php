@@ -47,7 +47,7 @@ foreach ($player as $tag)
 {
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	$q = $db->query("select * from ow_qm where `tag`='$tag' and `mode`='QM' order by `date` DESC limit 1");
+	$q = $db->query("select * from ow_general where `tag`='$tag' and `mode`='QM' order by `date` DESC limit 1");
 	$r = $q->fetch_object();
 	$games_played = $r->games;
 	echo $games_played.DELIM;
