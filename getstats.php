@@ -68,7 +68,7 @@ foreach ($player as $tag)
 		echo ".";
 	}
 	$db->query(
-	"insert into ow_qm 
+	"insert into ow_general 
 		(`tag`, 
 		`mode`, 
 		`date`, 
