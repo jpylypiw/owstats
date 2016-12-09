@@ -66,6 +66,9 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 	tr:nth-of-type(odd) { 
 		background: #eee; 
 	}
+        tr:hover {
+          background-color: #ccc;
+        }
 	th { 
 		background: #333; 
 		color: white; 
