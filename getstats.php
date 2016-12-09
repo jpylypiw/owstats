@@ -70,8 +70,6 @@ foreach ($player as $tag)
 	  }
 	 }
 	}
-	$rating = "level";
-	if ($mode=="COMPETITIVE") $rating="comprank";
 	$db->query(
 	"insert into ow_general 
 		(`tag`, 
@@ -89,7 +87,10 @@ foreach ($player as $tag)
 		'$tag',
 		'$mode',
 		'".date("Y-m-d")."',
-		".$ob->overall_stats->$rating.",
+		".(
+		$mode=="COMPETITIVE" 
+			? $ob->overall_stats->comprank 
+			: ( $ob->overall_stats->prestige * 100)+$ob->overall_stats->level ).",
 		".$ob->game_stats->games_won.",
 		".$games_played.",
 		".$ob->game_stats->eliminations.",

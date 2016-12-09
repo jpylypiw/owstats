@@ -7,53 +7,41 @@ define('DELIM',',');
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
 
-$heroes = array(
-	'offense' => array(
-	  "mccree",
-          "genji",
-          "reaper",
-          "tracer",
-          "pharah",
-          "soldier76",
-          "sombra"
-	),
-	'defense' => array(
-          "bastion",
-          "widowmaker",
-          "torbjorn",
-          "junkrat",
-          "mei",
-          "hanzo"
-	),
-	'tank' => array(
-          "reinhardt",
-          "zarya",
-          "winston",
-          "roadhog",
-          "dva"
-	),
-	'support' => array(
-          "zenyatta",
-          "symmetra",
-          "ana",
-          "lucio",
-          "mercy"
-	)
+$columns = array(
+  "Player",
+  "Rank",
+  "Games",
+  "Wins",
+  "Win ratio",
+  "Eliminations",
+  "K/D Ratio",
+  "Damage",
+  "Blocked",
+  "Healing"
 );
 
-echo "Player".DELIM.($mode=="QM"?"Level":"Rank").DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
+$row = "";
+foreach ($columns as $col)
+{
+  if ($col=="Rank" && $mode=="QM") continue;
+  $row .= $col.DELIM;
+}
+
+echo substr($row,0,-1);
 echo "\n";
 
+$q = $db->query("select `date` from ow_general order by `date` DESC limit 1");
+$r = $q->fetch_object();
+$recentdate=$r->date;
 
-
-foreach ($player as $tag)
+$q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating`");
+while ($r = $q->fetch_object()) 
 {
+	$tag = $r->tag;
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	$q = $db->query("select * from ow_general where `tag`='$tag' and `mode`='$mode' order by `date` DESC limit 1");
-	$r = $q->fetch_object();
 	$games_played = $r->games;
-	echo $r->rating.DELIM;
+	if ($mode!="QM") echo $r->rating.DELIM;
 	echo $games_played.DELIM;
 	echo $r->wins.DELIM;
 	if ($games_played>0)
