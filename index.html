@@ -8,16 +8,20 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css" type="text/css" />
+	<script src="tabs.js"></script>
 
 </head>
 
 <body>
+<ul class="tab">
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM')">Quickmatch</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'COMPETITIVE')">Competitive</a></li>
+</ul>
 
-	<div id="page-wrap">
+	<div id="QM" class="tabcontent"></div>
+	<div id="COMPETITIVE" class="tabcontent"></div>
 
-	<h1>Overwatch stats</h1>
     
-	</div>
 	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript">
 
@@ -25,12 +29,12 @@
 	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 	}
 
-	function buildDataTable(error,data)
+	function buildDataTable(error,data,container)
 	{
 		  if (error) throw error;
 		  
 		  var sortAscending = true;
-		  var table = d3.select('#page-wrap').append('table');
+		  var table = d3.select('#'+container).append('table');
 		  var titles = d3.keys(data[0]);
 		  var headers = table.append('thead').append('tr')
 		                   .selectAll('th')
@@ -85,8 +89,8 @@
 		    });
 	  }
 
-	  d3.csv("stats_QM.csv",  buildDataTable);
-	  d3.csv("stats_COMPETITIVE.csv",  buildDataTable);
+	  d3.csv("stats_QM.csv",  function(error,data){buildDataTable(error,data,"QM");});
+	  d3.csv("stats_COMPETITIVE.csv",   function(error,data){buildDataTable(error,data,"COMPETITIVE");});
 	</script>
 </body>
 
