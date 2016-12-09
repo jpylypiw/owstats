@@ -41,7 +41,7 @@ $heroes = array(
 	)
 );
 
-echo "Player".DELIM."Level".DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
+echo "Player".DELIM.($mode=="QM"?"Level":"Rank").DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
 echo "\n";
 
 
