@@ -4,6 +4,9 @@ require "db.php";
 
 define('DELIM',',');
 
+$mode = $argv[1];
+if (!$mode) $mode = "QM";
+
 $heroes = array(
 	'offense' => array(
 	  "mccree",
@@ -38,7 +41,7 @@ $heroes = array(
 	)
 );
 
-echo "Player".DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
+echo "Player".DELIM."Level".DELIM."Games".DELIM."Wins".DELIM."Win ratio".DELIM."Eliminations".DELIM."K/D Ratio".DELIM."Damage".DELIM."Blocked".DELIM."Healing";
 echo "\n";
 
 
@@ -47,9 +50,10 @@ foreach ($player as $tag)
 {
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	$q = $db->query("select * from ow_general where `tag`='$tag' and `mode`='QM' order by `date` DESC limit 1");
+	$q = $db->query("select * from ow_general where `tag`='$tag' and `mode`='$mode' order by `date` DESC limit 1");
 	$r = $q->fetch_object();
 	$games_played = $r->games;
+	echo $r->rating.DELIM;
 	echo $games_played.DELIM;
 	echo $r->wins.DELIM;
 	if ($games_played>0)
