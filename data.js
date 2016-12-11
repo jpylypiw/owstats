@@ -41,15 +41,23 @@
 		    .attr('data-th', function (d) {
 		    	return d.name;
 		    })
-		    .text(function (d) {
+		    .html(function (d) {
+			vals=d.value.split("|");
+			value = vals[0];
+			change = vals[1];
 			if (["K/D Ratio","Win ratio","Eliminations"].indexOf(d.name)>=0 )
 			{
-				return Number(d.value).toLocaleString("de-DE",{maximumFractionDigits:2,minimumFractionDigits:2});
-			} 
+				result = Number(value).toLocaleString("de-DE",{maximumFractionDigits:2,minimumFractionDigits:2});
+			} else
 			if (["Games","Wins","Healing","Damage","Blocked","Time played","Rank","Level"].indexOf(d.name)>=0)
 			{
-				return Number(Math.ceil(d.value)).toLocaleString("de-DE");
+				result = Number(Math.ceil(value)).toLocaleString("de-DE");
+			} else {
+		    		result = value;
 			}
-		    	return d.value;
+			if (change) {
+				result = result + " <span class=" + (change>0?"green>(+":"red>(") + Number(change).toLocaleString("de-DE",{maximumFractionDigits:2}) + ")</span>";
+			}
+			return result;
 		    });
 	  }
