@@ -49,3 +49,16 @@
 		    .text(function (d) {
 			if (["K/D Ratio","Win ratio","Eliminations"].indexOf(d.name)>=0 )
 			{
+				return parseFloat(d.value).toFixed(2);
+			} 
+			if (["Blocked","Time played"].indexOf(d.name)>=0)
+			{
+				return numberWithCommas(Math.ceil(d.value));
+			}
+			if (["Wins","Healing","Damage"].indexOf(d.name)>=0)
+			{
+				return numberWithCommas(Math.ceil(d.value));
+			}
+		    	return d.value;
+		    });
+	  }
