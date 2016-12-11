@@ -43,6 +43,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
      body { 
 	   font: 14px/1.4 Georgia, Serif; 
 	   background: url(img/bg.png);
+	   background-size: 100%;
      }
     #page-wrap {
 	  margin: 50px;
@@ -59,7 +60,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 		border-collapse: collapse; 
 	}
 	tr {
-		opacity: 0.8;
+		opacity: 0.9;
 		background: #fff; 
 	}
 	/* Zebra striping */
