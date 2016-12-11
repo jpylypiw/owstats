@@ -23,7 +23,10 @@ $columns = array(
 $row = "";
 foreach ($columns as $col)
 {
-  if ($col=="Rank" && $mode=="QM") continue;
+  if ($col=="Rank" && $mode=="QM") {
+	$row .= "Level".DELIM;
+	continue;
+  }
   $row .= $col.DELIM;
 }
 
@@ -41,7 +44,7 @@ while ($r = $q->fetch_object())
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
 	$games_played = $r->games;
-	if ($mode!="QM") echo $r->rating.DELIM;
+	echo $r->rating.DELIM;
 	echo $games_played.DELIM;
 	echo $r->wins.DELIM;
 	if ($games_played>0)
