@@ -8,8 +8,9 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css" type="text/css" />
-	<script src="tabs.js"></script>
-	<script src="data.js"></script>
+	<script type="text/javascript" src="tabs.js"></script>
+	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="data.js"></script>
 
 </head>
 
@@ -21,12 +22,8 @@
 
 	<div id="QM" class="tabcontent"></div>
 	<div id="COMPETITIVE" class="tabcontent"></div>
-
     
-	<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript">
-
-
 	  d3.csv("stats_QM.csv",  function(error,data){buildDataTable(error,data,"QM");});
 	  d3.csv("stats_COMPETITIVE.csv",   function(error,data){buildDataTable(error,data,"COMPETITIVE");});
 	</script>
