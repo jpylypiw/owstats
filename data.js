@@ -1,8 +1,3 @@
-
-	function numberWithCommas(x) {
-	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-	}
-
 	function buildDataTable(error,data,container)
 	{
 		  if (error) throw error;
@@ -49,15 +44,11 @@
 		    .text(function (d) {
 			if (["K/D Ratio","Win ratio","Eliminations"].indexOf(d.name)>=0 )
 			{
-				return parseFloat(d.value).toFixed(2);
+				return Number(d.value).toLocaleString("de-DE",{maximumFractionDigits:2,minimumFractionDigits:2});
 			} 
-			if (["Blocked","Time played"].indexOf(d.name)>=0)
+			if (["Games","Wins","Healing","Damage","Blocked","Time played","Rank","Level"].indexOf(d.name)>=0)
 			{
-				return numberWithCommas(Math.ceil(d.value));
-			}
-			if (["Wins","Healing","Damage"].indexOf(d.name)>=0)
-			{
-				return numberWithCommas(Math.ceil(d.value));
+				return Number(Math.ceil(d.value)).toLocaleString("de-DE");
 			}
 		    	return d.value;
 		    });
