@@ -4,7 +4,6 @@ require "db.php";
 
 define('DELIM',',');
 define('DELIMD','|');
-$comparedays = 7;
 
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
