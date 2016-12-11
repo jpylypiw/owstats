@@ -37,7 +37,7 @@ $q = $db->query("select `date` from ow_general order by `date` DESC limit 1");
 $r = $q->fetch_object();
 $recentdate=$r->date;
 
-$q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating`");
+$q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
 while ($r = $q->fetch_object()) 
 {
 	$tag = $r->tag;
