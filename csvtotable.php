@@ -13,7 +13,7 @@ function formatting($value,$field,$fieldbefore)
   $pos="";
   if (!$field)
   {
-	if ($value==0) return "";
+	if (abs($value)<0.005) return "";
 	$field=$fieldbefore;
 	$pos="+";
   }
