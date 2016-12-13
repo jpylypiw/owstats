@@ -1,12 +1,15 @@
 <?php
 
 $csvfile = $argv[1];
+$mode=substr($csvfile,strpos($csvfile,"_")+1,-4);
+
 
 $f = fopen($csvfile,"r");
 
 $headers = fgetcsv($f,1000);
 
 ?>
+<div id="<?=$mode;?>" class="tabcontent">
 <table>
 <thead>
 <tr>
@@ -39,4 +42,4 @@ foreach ($headers as $head) {
 ?>
 </tbody>
 </table>
-
+</div>
