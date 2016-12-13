@@ -107,8 +107,8 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     to {opacity: 1;}
 }
 
-span.small {
-	font-size: 6pt;
+.small {
+	font-size: 8pt;
 }
 .red { color: #e00; }
 .green { color: #0e0; }
