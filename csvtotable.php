@@ -38,7 +38,7 @@ function colorclass($value)
 
 ?>
 <div id="<?=$mode;?>" class="tabcontent">
-<table>
+<table class="sortable">
 <thead>
 <tr>
 <?php
