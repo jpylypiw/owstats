@@ -3,7 +3,7 @@ require "config.inc.php";
 require "db.php";
 
 define('DELIM',',');
-define('DELIMD','|');
+define('DELIMD',',');
 
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
@@ -11,14 +11,23 @@ if (!$mode) $mode = "QM";
 $columns = array(
   "Player",
   "Rank",
+  "",
   "Games",
+  "",
   "Wins",
+  "",
   "Win ratio",
+  "",
   "Eliminations",
+  "",
   "K/D Ratio",
+  "",
   "Damage",
+  "",
   "Blocked",
-  "Healing"
+  "",
+  "Healing",
+  ""
 );
 
 $row = "";
