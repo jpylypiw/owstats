@@ -58,13 +58,13 @@ function histdiff(&$history, $colname)
 	return substr($col,0,-1).DELIM;
 }
 		
-function histdiffavg(&$history, $colname)
+function histdiffavg(&$history, $colname, $factor=1)
 {
 	$col="";
 	$firsthist=$history[0];
 	foreach ($history as $rl)
 	{
-		$col .= (($rl->$colname / $rl->games)*100 - ($firsthist->$colname / $firsthist->games)*100 ). DELIMD;
+		$col .= (($rl->$colname / $rl->games)*$factor - ($firsthist->$colname / $firsthist->games)*$factor ). DELIMD;
 	}
 	return substr($col,0,-1).DELIM;
 }
@@ -93,7 +93,7 @@ while ($r = $q->fetch_object())
 	if ($r->games>0)
 	{
 		echo ($r->wins / $r->games)*100 . DELIM;
-		echo histdiffavg($history,"wins");
+		echo histdiffavg($history,"wins",100);
 	} else {
 		echo "0".DELIM;
 	}

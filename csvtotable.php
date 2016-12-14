@@ -13,10 +13,10 @@ function formatting($value,$field,$fieldbefore)
   $pos="";
   if (!$field)
   {
-	if (abs($value)<0.005) return "";
-	$field=$fieldbefore;
 	$value = explode("|",$value);
 	$value = $value[count($value)-1];
+	if (abs($value)<0.005) return "";
+	$field=$fieldbefore;
 	$pos="+";
   }
   if (in_array($field,array("K/D Ratio","Win ratio","Eliminations")))
