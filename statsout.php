@@ -3,7 +3,7 @@ require "config.inc.php";
 require "db.php";
 
 define('DELIM',',');
-define('DELIMD',',');
+define('DELIMD','|');
 
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
@@ -47,6 +47,28 @@ $q = $db->query("select `date` from ow_general order by `date` DESC limit 1");
 $r = $q->fetch_object();
 $recentdate=$r->date;
 
+function histdiff(&$history, $colname)
+{
+	$col="";
+	$firsthist=$history[0];
+	foreach ($history as $rl)
+	{
+		$col .= ($rl->$colname-$firsthist->$colname).DELIMD;
+	}
+	return substr($col,0,-1).DELIM;
+}
+		
+function histdiffavg(&$history, $colname)
+{
+	$col="";
+	$firsthist=$history[0];
+	foreach ($history as $rl)
+	{
+		$col .= (($rl->$colname / $rl->games)*100 - ($firsthist->$colname / $firsthist->games)*100 ). DELIMD;
+	}
+	return substr($col,0,-1).DELIM;
+}
+
 $q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
 while ($r = $q->fetch_object()) 
 {
@@ -62,32 +84,32 @@ while ($r = $q->fetch_object())
 	$datediff = (strtotime($firsthist->date) - strtotime($r->date))/60/60/24;
 	$a = explode("#", $tag);
 	echo $a[0]." (${datediff}d)".DELIM;
-	echo $r->rating.DELIMD;
-	echo ($r->rating-$firsthist->rating).DELIM;
-	echo $r->games.DELIMD;
-	echo ($r->games-$firsthist->games).DELIM;
-	echo $r->wins.DELIMD;
-	echo ($r->wins-$firsthist->wins).DELIM;
+	echo $r->rating.DELIM;
+	echo histdiff($history,"rating");
+	echo $r->games.DELIM;
+	echo histdiff($history,"games");
+	echo $r->wins.DELIM;
+	echo histdiff($history,"wins");
 	if ($r->games>0)
 	{
-		echo ($r->wins / $r->games)*100 . DELIMD;
-		echo (($r->wins / $r->games)*100 - ($firsthist->wins / $firsthist->games)*100 ). DELIM;
+		echo ($r->wins / $r->games)*100 . DELIM;
+		echo histdiffavg($history,"wins");
 	} else {
 		echo "0".DELIM;
 	}
-	echo $r->kills/$r->games . DELIMD;
-	echo ($r->kills/$r->games - $firsthist->kills/$firsthist->games ) . DELIM;
-	echo $r->kills/$r->deaths.DELIMD;
-	echo ($r->kills/$r->deaths - $firsthist->kills/$firsthist->deaths ).DELIM;
-	echo $r->damage/$r->games.DELIMD;
-	echo ($r->damage/$r->games - $firsthist->damage/$firsthist->games).DELIM;
-	echo $r->blocked / $r->games.DELIMD;
-	echo ($r->blocked / $r->games - $firsthist->blocked / $firsthist->games).DELIM;
-	echo $r->healing / $r->games.DELIMD;
-	echo ($r->healing / $r->games - $firsthist->healing / $firsthist->games);
+	echo $r->kills/$r->games . DELIM;
+	echo histdiffavg($history,"kills");
+	echo $r->kills/$r->deaths.DELIM;
+	echo histdiffavg($history,"deaths");
+	echo $r->damage/$r->games.DELIM;
+	echo histdiffavg($history,"damage");
+	echo $r->blocked / $r->games.DELIM;
+	echo histdiffavg($history,"blocked");
+	echo $r->healing / $r->games.DELIM;
+	echo histdiffavg($history,"healing");
 	echo "\n";
 }
-
+print_r($history);
 // echo api_request("Juro#1208","stats");
 
 
