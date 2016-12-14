@@ -109,7 +109,6 @@ while ($r = $q->fetch_object())
 	echo histdiffavg($history,"healing");
 	echo "\n";
 }
-print_r($history);
 // echo api_request("Juro#1208","stats");
 
 
