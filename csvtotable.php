@@ -6,7 +6,7 @@ $mode=substr($csvfile,strpos($csvfile,"_")+1,-4);
 
 $f = fopen($csvfile,"r");
 
-$headers = fgetcsv($f,1000);
+$headers = fgetcsv($f,2000);
 
 function formatting($value,$field,$fieldbefore)
 {
@@ -15,6 +15,8 @@ function formatting($value,$field,$fieldbefore)
   {
 	if (abs($value)<0.005) return "";
 	$field=$fieldbefore;
+	$value = explode("|",$value);
+	$value = $value[count($value)-1];
 	$pos="+";
   }
   if (in_array($field,array("K/D Ratio","Win ratio","Eliminations")))
@@ -62,9 +64,18 @@ foreach ($headers as $head) {
 ?>
 	<td
 		data-td="<?=$headers[$fnum];?>" 
-		data-value="<?=$field;?>"
+		data-value="<?=substr($field,strrpos($field,"|")+1);?>"
 		<?=($headers[$fnum]?"":"class=\"small ".colorclass($field)."\"");?>
-	><?=formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?></td>
+	>
+		<?=formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?>
+<?php
+	if (!$headers[$fnum]) {
+?>
+		<span class="chart"><?=str_replace("|",",",$field);?></span>
+<?php
+	}
+?>
+	</td>
 <?php
 	}
 ?>

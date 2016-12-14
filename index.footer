@@ -8,6 +8,11 @@ var myTextExtraction = function(node)
 
     $(function() {
 	$(".sortable").tablesorter( {textExtraction: myTextExtraction} );
+	$(".chart").peity("bar", {
+		fill: function(value) {
+			return value > 0 ? "green" : "red"
+		}
+});
     });
    </script> 
   <div class="small">generated GENTIMESTRING</div>
