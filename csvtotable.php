@@ -61,17 +61,20 @@ foreach ($headers as $head) {
 <?php
 	foreach ($row as $fnum=> $field)
 	{
+		$addclass = "";
+		if (!$headers[$fnum]) {
+			$chartvals = $field;
+			$field = substr($field,strrpos($field,"|")+1);
+			$addclass = "small ".colorclass($field);
+		}
+		
 ?>
 	<td
-		data-td="<?=$headers[$fnum];?>" 
-		data-value="<?=substr($field,strrpos($field,"|")+1);?>"
-		<?=($headers[$fnum]?"":"class=\"small ".colorclass($field)."\"");?>
-	>
-		<?=formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?>
+		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>">
+		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?><br/>
 <?php
 	if (!$headers[$fnum]) {
-?>
-		<span class="chart"><?=str_replace("|",",",$field);?></span>
+?><span class="chart" title="<?=$field;?>"><?=str_replace("|",",",$chartvals);?></span>
 <?php
 	}
 ?>
