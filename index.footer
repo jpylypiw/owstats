@@ -10,6 +10,7 @@ var myTextExtraction = function(node)
 	$(".sortable").tablesorter( {textExtraction: myTextExtraction} );
     });
    </script> 
+  <div class="small">generated GENTIMESTRING</div>
 </body>
 
 </html>
