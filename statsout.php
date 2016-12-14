@@ -83,7 +83,7 @@ while ($r = $q->fetch_object())
 	$firsthist = $history[0];
 	$datediff = (strtotime($firsthist->date) - strtotime($r->date))/60/60/24;
 	$a = explode("#", $tag);
-	echo $a[0]." (${datediff}d)".DELIM;
+	echo $a[0].DELIM;
 	echo $r->rating.DELIM;
 	echo histdiff($history,"rating");
 	echo $r->games.DELIM;
