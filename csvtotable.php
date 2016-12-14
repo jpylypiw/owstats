@@ -21,11 +21,11 @@ function formatting($value,$field,$fieldbefore)
   }
   if (in_array($field,array("K/D Ratio","Win ratio","Eliminations")))
   {
-	return ($value>0?$pos:"").number_format($value,2,".",",");
+	return ($value>0?$pos:"").number_format($value,2,",",".");
   }
   if (in_array($field,array("Games","Wins","Healing","Damage","Blocked","Time played","Rank","Level")))
   {
-	return ($value>0?$pos:"").number_format(ceil($value),0,".",",");
+	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }
   return ($value>0?$pos:"").$value;
   
