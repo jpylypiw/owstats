@@ -106,7 +106,7 @@ while ($r = $q->fetch_object())
 	echo $r->blocked / $r->games.DELIM;
 	echo histdiffavg($history,"blocked");
 	echo $r->healing / $r->games.DELIM;
-	echo histdiffavg($history,"healing");
+	echo substr(histdiffavg($history,"healing"),0,-1);
 	echo "\n";
 }
 // echo api_request("Juro#1208","stats");
