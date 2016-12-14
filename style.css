@@ -112,3 +112,5 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 }
 .red { color: #e00; }
 .green { color: #0e0; }
+
+.nobr { white-space: nowrap; }
