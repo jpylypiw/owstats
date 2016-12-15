@@ -16,17 +16,17 @@ $columns = array(
   "",
   "Wins",
   "",
-  "Win ratio",
+  "Win Ratio",
   "",
-  "Eliminations",
+  "Kills",
   "",
   "K/D Ratio",
   "",
-  "Damage",
+  "Dmg",
   "",
-  "Blocked",
+  "Block",
   "",
-  "Healing",
+  "Heal",
   ""
 );
 
