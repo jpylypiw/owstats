@@ -19,11 +19,11 @@ function formatting($value,$field,$fieldbefore)
 	$field=$fieldbefore;
 	$pos="+";
   }
-  if (in_array($field,array("K/D Ratio","Win ratio","Eliminations")))
+  if (in_array($field,array("K/D Ratio","Win Ratio","Kills")))
   {
 	return ($value>0?$pos:"").number_format($value,2,",",".");
   }
-  if (in_array($field,array("Games","Wins","Healing","Damage","Blocked","Time played","Rank","Level")))
+  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }
@@ -73,9 +73,18 @@ foreach ($headers as $head) {
 		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>">
 		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?><br/>
 <?php
-	if (!$headers[$fnum]) {
-?><span class="chart" title="<?=$field;?>"><?=str_replace("|",",",$chartvals);?></span>
+	if (!$headers[$fnum] && $fnum>6) {
+		$chartvalsa = explode("|",$chartvals);
+		$noval = true;
+		foreach ($chartvalsa as $value)
+		{
+			if ($value!=0) $noval = false;
+		}
+		if (!$noval) {
+?>
+		<span class="chart" title="<?=$field;?>"><?=str_replace("|",",",$chartvals);?></span>
 <?php
+		}
 	}
 ?>
 	</td>
