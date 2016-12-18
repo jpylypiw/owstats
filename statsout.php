@@ -69,6 +69,17 @@ function histdiffavg(&$history, $colname, $factor=1)
 	return substr($col,0,-1).DELIM;
 }
 
+function histkddiffavg(&$history)
+{
+	$col="";
+	$firsthist=$history[0];
+	foreach ($history as $rl)
+	{
+		$col .= (($rl->kills / $rl->deaths) - ($firsthist->kills / $firsthist->deaths) ). DELIMD;
+	}
+	return substr($col,0,-1).DELIM;
+}
+
 $q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
 while ($r = $q->fetch_object()) 
 {
@@ -100,7 +111,7 @@ while ($r = $q->fetch_object())
 	echo $r->kills/$r->games . DELIM;
 	echo histdiffavg($history,"kills");
 	echo $r->kills/$r->deaths.DELIM;
-	echo histdiffavg($history,"deaths");
+	echo histkddiffavg($history);
 	echo $r->damage/$r->games.DELIM;
 	echo histdiffavg($history,"damage");
 	echo $r->blocked / $r->games.DELIM;
