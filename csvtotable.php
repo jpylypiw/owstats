@@ -54,7 +54,7 @@ foreach ($headers as $head) {
 </thead>
 <tbody>
 <?php
- while ($row = fgetcsv($f,1000))
+ while ($row = fgetcsv($f))
  {
 ?>
 <tr>
