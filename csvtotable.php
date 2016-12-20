@@ -73,7 +73,7 @@ foreach ($headers as $head) {
 		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>">
 		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?><br/>
 <?php
-	if (!$headers[$fnum] && $fnum>6) {
+	if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
 		$chartvalsa = explode("|",$chartvals);
 		$noval = true;
 		foreach ($chartvalsa as $value)
