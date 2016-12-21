@@ -46,14 +46,14 @@ foreach ($player as $tag)
 	 foreach ($class as $hero)
 	 {
 	  echo ".";
-	  if (!$data_heroes->$hero) continue;
+	  if ($ob_heroes->eu->heroes->playtime->$modestr->$hero == 0) continue;
 	  $gs = $data_heroes->$hero->general_stats;
-	  if (!$gs->damage_done_average) continue; # no average damage -> not played -> skip
+	  if (!$gs->deaths) continue; # no death -> not played -> skip
 	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
 	  if ($blocked>0) $dmg_blocked += $blocked;
 	  else $blocked = "0";
 	  
-	  $hero_games_played = $gs->damage_done / $gs->damage_done_average;
+	  $hero_games_played = $gs->deaths / $gs->deaths_average;
 	  $sql="insert into ow_heroes
 			(`tag`, 
 			`mode`, 
