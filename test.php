@@ -10,6 +10,7 @@ function api_request($battletag,$function="general",$apiv="v2")
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$json=curl_exec($ch);
 	curl_close($ch);
 	// $json = file_get_contents($url);
