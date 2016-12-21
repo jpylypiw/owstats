@@ -2,6 +2,7 @@
 require "config.inc.php";
 require "db.php";
 
+define('DRYRUN',false);
 
 function api_request($battletag,$function="general",$apiv="v2")
 {
@@ -15,39 +16,45 @@ function api_request($battletag,$function="general",$apiv="v2")
 	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
 	$json=curl_exec($ch);
 	curl_close($ch);
+	sleep(2);
 	return $json;
 }
 
-function get_stats($battletag,$function="general",$apiv="v2")
+function get_stats($battletag,$function="general",$apiv="v3")
 {
-	return json_decode(api_request($battletag,$function));
+	return json_decode(api_request($battletag,$function,$apiv));
 }
 
-
+ob_end_flush();
+if (DRYRUN) echo "DRYRUN ACTIVE\n";
 foreach ($player as $tag)
 {
+  $ob = get_stats($tag,"stats");
+  $ob_heroes = get_stats($tag,"heroes");
   foreach (array("QM","COMPETITIVE") as $mode)
   {
-	$modestr = ($mode=="QM" ? "general" : "competitive");
+	$modestr = ($mode=="QM" ? "quickplay" : "competitive");
+	$data = $ob->eu->stats->$modestr;
+	$data_heroes = $ob_heroes->eu->heroes->stats->$modestr;
 	echo $tag;
+	
 	$a = explode("#", $tag);
-	$ob = get_stats($tag,"stats/$modestr");
-	$ob_herolist = get_stats($tag,"heroes/$modestr");
-	$ob_herolist = $ob_herolist->heroes;
-	$games_played = round($ob->game_stats->damage_done / $ob->average_stats->damage_done_avg);
+	$games_played = round($data->game_stats->damage_done / $data->average_stats->damage_done_avg);
 	$dmg_blocked=0;
 	foreach ($heroes as $class)
 	{
 	 foreach ($class as $hero)
 	 {
 	  echo ".";
-	  if (in_array($hero,$blocker))
-	  {
-		if (!$ob_herolist->$hero) continue;
-		$ob_hero = get_stats($tag,"heroes/$hero/$modestr");
-		/*
-		$db->query(
-		"insert into ow_heroes
+	  if (!$data_heroes->$hero) continue;
+	  $gs = $data_heroes->$hero->general_stats;
+	  if (!$gs->damage_done_average) continue; # no average damage -> not played -> skip
+	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
+	  if ($blocked>0) $dmg_blocked += $blocked;
+	  else $blocked = "0";
+	  
+	  $hero_games_played = $gs->damage_done / $gs->damage_done_average;
+	  $sql="insert into ow_heroes
 			(`tag`, 
 			`mode`, 
 			`date`, 
@@ -61,24 +68,21 @@ foreach ($player as $tag)
 			`healing`) 
 		values (
 			'$tag',
-			'QM',
+			'$mode',
 			'".date("Y-m-d")."',
 			'".$hero."',
-			".$ob_hero->game_stats->games_won.",
-			".$games_played.",
-			".$ob->game_stats->eliminations.",
-			".$ob->game_stats->deaths.",
-			".$ob->game_stats->damage_done.",
-			".$dmg_blocked.",
-			".$ob->game_stats->healing_done."
-		)");
-		*/
-		$dmg_blocked += $ob_hero->hero_stats->damage_blocked;
-	  }
+			'".$gs->games_won."',
+			'".$hero_games_played."',
+			'".$gs->eliminations."',
+			'".$gs->deaths."',
+			'".$gs->damage_done."',
+			'".$blocked."',
+			'".$gs->healing_done."'
+		)";
+	   if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	 }
 	}
-	$db->query(
-	"insert into ow_general 
+	$sql="insert into ow_general 
 		(`tag`, 
 		`mode`, 
 		`date`, 
@@ -96,17 +100,22 @@ foreach ($player as $tag)
 		'".date("Y-m-d")."',
 		".(
 		$mode=="COMPETITIVE" 
-			? $ob->overall_stats->comprank 
-			: ( $ob->overall_stats->prestige * 100)+$ob->overall_stats->level ).",
-		".$ob->game_stats->games_won.",
+			? $data->overall_stats->comprank 
+			: ( $data->overall_stats->prestige * 100)+$data->overall_stats->level ).",
+		".$data->game_stats->games_won.",
 		".$games_played.",
-		".$ob->game_stats->eliminations.",
-		".$ob->game_stats->deaths.",
-		".$ob->game_stats->damage_done.",
+		".$data->game_stats->eliminations.",
+		".$data->game_stats->deaths.",
+		".$data->game_stats->damage_done.",
 		".$dmg_blocked.",
-		".$ob->game_stats->healing_done."
-	)");
+		".$data->game_stats->healing_done."
+	)";
+	if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	echo "\n";
+  }
+  if (DRYRUN) {
+    echo "END OF DRYRUN\n";
+    return;
   }
 }
 
