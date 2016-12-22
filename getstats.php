@@ -49,6 +49,7 @@ foreach ($player as $tag)
 	  if ($ob_heroes->eu->heroes->playtime->$modestr->$hero == 0) continue;
 	  $gs = $data_heroes->$hero->general_stats;
 	  if (!$gs->deaths) continue; # no death -> not played -> skip
+	  if (!$gs->deaths_average) continue; # no death -> not played -> skip
 	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
 	  if ($blocked>0) $dmg_blocked += $blocked;
 	  else $blocked = "0";
