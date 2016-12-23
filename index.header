@@ -29,5 +29,6 @@
 <ul class="tab">
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM')">Quickmatch</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'COMPETITIVE')">Competitive</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HEROES')">Heroes Quickmatch</a></li>
 </ul>
 
