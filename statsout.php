@@ -1,6 +1,7 @@
 <?php
 require "config.inc.php";
 require "db.php";
+require "functions.php";
 
 define('DELIM',',');
 define('DELIMD','|');
@@ -47,38 +48,6 @@ $q = $db->query("select `date` from ow_general order by `date` DESC limit 1");
 $r = $q->fetch_object();
 $recentdate=$r->date;
 
-function histdiff(&$history, $colname)
-{
-	$col="";
-	$firsthist=$history[0];
-	foreach ($history as $rl)
-	{
-		$col .= ($rl->$colname-$firsthist->$colname).DELIMD;
-	}
-	return substr($col,0,-1).DELIM;
-}
-		
-function histdiffavg(&$history, $colname, $factor=1)
-{
-	$col="";
-	$firsthist=$history[0];
-	foreach ($history as $rl)
-	{
-		$col .= (($rl->$colname / $rl->games)*$factor - ($firsthist->$colname / $firsthist->games)*$factor ). DELIMD;
-	}
-	return substr($col,0,-1).DELIM;
-}
-
-function histkddiffavg(&$history)
-{
-	$col="";
-	$firsthist=$history[0];
-	foreach ($history as $rl)
-	{
-		$col .= (($rl->kills / $rl->deaths) - ($firsthist->kills / $firsthist->deaths) ). DELIMD;
-	}
-	return substr($col,0,-1).DELIM;
-}
 
 $q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
 while ($r = $q->fetch_object()) 
