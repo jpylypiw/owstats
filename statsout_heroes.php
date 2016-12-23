@@ -40,17 +40,18 @@ foreach ($columns as $col)
 echo substr($row,0,-1);
 echo "\n";
 
-$q = $db->query("select `date` from ow_general order by `date` DESC limit 1");
+$q = $db->query("select `date` from ow_heroes order by `date` DESC limit 1");
 $r = $q->fetch_object();
 $recentdate=$r->date;
 
 
-$q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
+$q = $db->query("select * from ow_heroes oh inner join ow_heroclass ohc using (`hero`)  where `mode`='$mode' and `date`='$recentdate' order by `tag`, `class`, `hero`");
 while ($r = $q->fetch_object()) 
 {
 	$tag = $r->tag;
+	$hero = $r->hero;
 	$ql = $db->query("
-		select * from ow_general where `mode`='$mode' and `date` >= ('$recentdate' - INTERVAL $comparedays day) and `tag`='$tag' ORDER BY `date`");
+		select * from ow_heroes where `mode`='$mode' and `date` >= ('$recentdate' - INTERVAL $comparedays day) and `tag`='$tag' and `hero`='$hero' ORDER BY `date`");
 	$history = array();
 	while ($rl = $ql->fetch_object())
 	{
@@ -60,8 +61,8 @@ while ($r = $q->fetch_object())
 	$datediff = (strtotime($firsthist->date) - strtotime($r->date))/60/60/24;
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	echo $r->rating.DELIM;
-	echo histdiff($history,"rating");
+	echo $r->class.DELIM;
+	echo $r->hero.DELIM;
 	echo $r->games.DELIM;
 	echo histdiff($history,"games");
 	echo $r->wins.DELIM;
