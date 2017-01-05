@@ -8,8 +8,6 @@ define('DELIMD','|');
 
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
-$class = $argv[2];
-if (!$class) $class = "Attack";
 
 $columns = array(
   "Player",
@@ -46,7 +44,7 @@ $r = $q->fetch_object();
 $recentdate=$r->date;
 
 
-$q = $db->query("select * from ow_heroes oh inner join ow_heroclass ohc using (`hero`)  where `mode`='$mode' and `date`='$recentdate' and `class`='$class' order by `games` DESC");
+$q = $db->query("select * from ow_heroes oh inner join ow_heroclass ohc using (`hero`)  where `mode`='$mode' and `date`='$recentdate' order by `games` DESC");
 while ($r = $q->fetch_object()) 
 {
 	$tag = $r->tag;
