@@ -8,10 +8,11 @@ define('DELIMD','|');
 
 $mode = $argv[1];
 if (!$mode) $mode = "QM";
+$class = $argv[2];
+if (!$class) $class = "Attack";
 
 $columns = array(
   "Player",
-  "Class",
   "Hero",
   "Games",
   "",
@@ -45,7 +46,7 @@ $r = $q->fetch_object();
 $recentdate=$r->date;
 
 
-$q = $db->query("select * from ow_heroes oh inner join ow_heroclass ohc using (`hero`)  where `mode`='$mode' and `date`='$recentdate' order by `tag`, `class`, `hero`");
+$q = $db->query("select * from ow_heroes oh inner join ow_heroclass ohc using (`hero`)  where `mode`='$mode' and `date`='$recentdate' and `class`='$class' order by `tag`, `class`, `hero`");
 while ($r = $q->fetch_object()) 
 {
 	$tag = $r->tag;
@@ -61,7 +62,6 @@ while ($r = $q->fetch_object())
 	$datediff = (strtotime($firsthist->date) - strtotime($r->date))/60/60/24;
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
-	echo $r->class.DELIM;
 	echo $r->hero.DELIM;
 	echo $r->games.DELIM;
 	echo histdiff($history,"games");
