@@ -1,26 +1,8 @@
 <?php
+require "functions.php";
+
 define('DELIM',',');
 
-function api_request($battletag,$function="general",$apiv="v2")
-{
-	$tag = urlencode(str_replace("#","-",$battletag));
-	$url = "http://localhost:4444/api/$apiv/u/$tag/$function";
-	$agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
-	$ch=curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$json=curl_exec($ch);
-	curl_close($ch);
-	// $json = file_get_contents($url);
-	return $json;
-}
-
-function get_stats($battletag,$function="general",$apiv="v2")
-{
-	return json_decode(api_request($battletag,$function,$apiv));
-}
 
 $players = array(
 'TheBomb#2919' => "TheBomb",

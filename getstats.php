@@ -1,29 +1,9 @@
 <?php
 require "config.inc.php";
 require "db.php";
+require "functions.php";
 
 define('DRYRUN',false);
-
-function api_request($battletag,$function="general",$apiv="v2")
-{
-	$tag = urlencode(str_replace("#","-",$battletag));
-	$url = "http://localhost:4444/api/$apiv/u/$tag/$function";
-	$agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
-	$ch=curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-	$json=curl_exec($ch);
-	curl_close($ch);
-	sleep(2);
-	return $json;
-}
-
-function get_stats($battletag,$function="general",$apiv="v3")
-{
-	return json_decode(api_request($battletag,$function,$apiv));
-}
 
 ob_end_flush();
 if (DRYRUN) echo "DRYRUN ACTIVE\n";
@@ -66,8 +46,24 @@ foreach ($player as $tag)
 			`deaths`, 
 			`damage`, 
 			`blocked`, 
-			`healing`) 
-		values (
+			`healing`,
+			`medals`, 
+			`medals_gold`, 
+			`medals_silver`, 
+			`medals_bronze`, 
+			`cards`, 
+			`environmental_kills`, 
+			`environmental_deaths`, 
+			`teleporter_pads_destroyed`, 
+			`damage_high`, 
+			`eliminations_high`, 
+			`solo_kills_high`, 
+			`final_blows_high`, 
+			`objective_time_high`, 
+			`objective_kills_high`, 
+			`healing_high`, 
+			`time_spent_on_fire_high`
+		) values (
 			'$tag',
 			'$mode',
 			'".date("Y-m-d")."',
@@ -78,8 +74,25 @@ foreach ($player as $tag)
 			'".$gs->deaths."',
 			'".$gs->damage_done."',
 			'".$blocked."',
-			'".$gs->healing_done."'
+			'".$gs->healing_done."',
+			'".$gs->medals."',
+			'".$gs->medals_gold."',
+			'".$gs->medals_silver."',
+			'".$gs->medals_bronze."',
+			'".$gs->cards."',
+			'".$gs->environmental_kills."',
+			'".$gs->environmental_deaths."',
+			'".$gs->teleporter_pads_destroyed."',
+			'".$gs->damage_done_most_in_game."',
+			'".$gs->eliminations_most_in_game."',
+			'".$gs->solo_kills_most_in_game."',
+			'".$gs->final_blows_most_in_game."',
+			'".$gs->objective_time_most_in_game."',
+			'".$gs->objective_kills_most_in_game."',
+			'".$gs->healing_done_most_in_game."',
+			'".$gs->time_spent_on_fire_most_in_game."'
 		)";
+
 	   if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	 }
 	}
