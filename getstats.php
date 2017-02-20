@@ -46,23 +46,7 @@ foreach ($player as $tag)
 			`deaths`, 
 			`damage`, 
 			`blocked`, 
-			`healing`,
-			`medals`, 
-			`medals_gold`, 
-			`medals_silver`, 
-			`medals_bronze`, 
-			`cards`, 
-			`environmental_kills`, 
-			`environmental_deaths`, 
-			`teleporter_pads_destroyed`, 
-			`damage_high`, 
-			`eliminations_high`, 
-			`solo_kills_high`, 
-			`final_blows_high`, 
-			`objective_time_high`, 
-			`objective_kills_high`, 
-			`healing_high`, 
-			`time_spent_on_fire_high`
+			`healing`
 		) values (
 			'$tag',
 			'$mode',
@@ -75,22 +59,6 @@ foreach ($player as $tag)
 			'".$gs->damage_done."',
 			'".$blocked."',
 			'".$gs->healing_done."',
-			'".$gs->medals."',
-			'".$gs->medals_gold."',
-			'".$gs->medals_silver."',
-			'".$gs->medals_bronze."',
-			'".$gs->cards."',
-			'".$gs->environmental_kills."',
-			'".$gs->environmental_deaths."',
-			'".$gs->teleporter_pads_destroyed."',
-			'".$gs->damage_done_most_in_game."',
-			'".$gs->eliminations_most_in_game."',
-			'".$gs->solo_kills_most_in_game."',
-			'".$gs->final_blows_most_in_game."',
-			'".$gs->objective_time_most_in_game."',
-			'".$gs->objective_kills_most_in_game."',
-			'".$gs->healing_done_most_in_game."',
-			'".$gs->time_spent_on_fire_most_in_game."'
 		)";
 
 	   if (DRYRUN) { echo $sql; } else { $db->query($sql); };
@@ -107,8 +75,24 @@ foreach ($player as $tag)
 		`deaths`, 
 		`damage`, 
 		`blocked`, 
-		`healing`) 
-	values (
+		`healing`,
+		`medals`, 
+		`medals_gold`, 
+		`medals_silver`, 
+		`medals_bronze`, 
+		`cards`, 
+		`environmental_kills`, 
+		`environmental_deaths`, 
+		`teleporter_pads_destroyed`, 
+		`damage_high`, 
+		`eliminations_high`, 
+		`solo_kills_high`, 
+		`final_blows_high`, 
+		`objective_time_high`, 
+		`objective_kills_high`, 
+		`healing_high`, 
+		`time_spent_on_fire_high`
+	) values (
 		'$tag',
 		'$mode',
 		'".date("Y-m-d")."',
@@ -122,7 +106,23 @@ foreach ($player as $tag)
 		".$data->game_stats->deaths.",
 		".$data->game_stats->damage_done.",
 		".$dmg_blocked.",
-		".$data->game_stats->healing_done."
+		".$data->game_stats->healing_done.",
+		".$data->game_stats->medals.",
+		".$data->game_stats->medals_gold.",
+		".$data->game_stats->medals_silver.",
+		".$data->game_stats->medals_bronze.",
+		".$data->game_stats->cards.",
+		".$data->game_stats->environmental_kills.",
+		".$data->game_stats->environmental_deaths.",
+		".$data->game_stats->teleporter_pads_destroyed.",
+		".$data->game_stats->damage_done_most_in_game.",
+		".$data->game_stats->eliminations_most_in_game.",
+		".$data->game_stats->solo_kills_most_in_game.",
+		".$data->game_stats->final_blows_most_in_game.",
+		".$data->game_stats->objective_time_most_in_game.",
+		".$data->game_stats->objective_kills_most_in_game.",
+		".$data->game_stats->healing_done_most_in_game.",
+		".$data->game_stats->time_spent_on_fire_most_in_game."
 	)";
 	if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	echo "\n";
