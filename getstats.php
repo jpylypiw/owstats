@@ -4,6 +4,7 @@ require "db.php";
 require "functions.php";
 
 define('DRYRUN',false);
+define('NO_HEROES',false);
 
 ob_end_flush();
 if (DRYRUN) echo "DRYRUN ACTIVE\n";
@@ -23,6 +24,7 @@ foreach ($player as $tag)
 	$dmg_blocked=0;
 	foreach ($heroes as $class)
 	{
+	 if (NO_HEROES) continue;
 	 foreach ($class as $hero)
 	 {
 	  echo ".";
@@ -106,23 +108,23 @@ foreach ($player as $tag)
 		".$data->game_stats->deaths.",
 		".$data->game_stats->damage_done.",
 		".$dmg_blocked.",
-		".$data->game_stats->healing_done.",
-		".$data->game_stats->medals.",
-		".$data->game_stats->medals_gold.",
-		".$data->game_stats->medals_silver.",
-		".$data->game_stats->medals_bronze.",
-		".$data->game_stats->cards.",
-		".$data->game_stats->environmental_kills.",
-		".$data->game_stats->environmental_deaths.",
-		".$data->game_stats->teleporter_pads_destroyed.",
-		".$data->game_stats->damage_done_most_in_game.",
-		".$data->game_stats->eliminations_most_in_game.",
-		".$data->game_stats->solo_kills_most_in_game.",
-		".$data->game_stats->final_blows_most_in_game.",
-		".$data->game_stats->objective_time_most_in_game.",
-		".$data->game_stats->objective_kills_most_in_game.",
-		".$data->game_stats->healing_done_most_in_game.",
-		".$data->game_stats->time_spent_on_fire_most_in_game."
+		'".$data->game_stats->healing_done."',
+		'".$data->game_stats->medals."',
+		'".$data->game_stats->medals_gold."',
+		'".$data->game_stats->medals_silver."',
+		'".$data->game_stats->medals_bronze."',
+		'".$data->game_stats->cards."',
+		'".$data->game_stats->environmental_kills."',
+		'".$data->game_stats->environmental_deaths."',
+		'".$data->game_stats->teleporter_pads_destroyed."',
+		'".$data->game_stats->damage_done_most_in_game."',
+		'".$data->game_stats->eliminations_most_in_game."',
+		'".$data->game_stats->solo_kills_most_in_game."',
+		'".$data->game_stats->final_blows_most_in_game."',
+		'".$data->game_stats->objective_time_most_in_game."',
+		'".$data->game_stats->objective_kills_most_in_game."',
+		'".$data->game_stats->healing_done_most_in_game."',
+		'".$data->game_stats->time_spent_on_fire_most_in_game."'
 	)";
 	if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	echo "\n";
