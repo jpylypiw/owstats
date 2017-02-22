@@ -14,21 +14,21 @@ $columns = array(
   "Player",
   "Games",
   "",
-  "Medals",
+  "DMG High",
   "",
-  "Gold",
+  "Eliminations High",
   "",
-  "Silver",
+  "SoloKills High",
   "",
-  "Bronze",
+  "FinalBlows High",
   "",
-  "Cards",
+  "Object time High",
   "",
-  "Environmental Kills",
+  "Object kills High",
   "",
-  "Environmental Deaths",
+  "Healing High",
   "",
-  "Telep. Pads dest.",
+  "on Fire High",
   ""
 );
 
@@ -36,14 +36,14 @@ if (NO_HIST) $columns = array(
   "Player",
   "Games",
   "",
-  "Medals",
-  "Gold",
-  "Silver",
-  "Bronze",
-  "Cards",
-  "Environmental Kills",
-  "Environmental Deaths",
-  "Telep. Pads dest."
+  "DMG High",
+  "Eliminations High",
+  "SoloKills High",
+  "FinalBlows High",
+  "Object time High",
+  "Object kills High",
+  "Healing High",
+  "on Fire High"
 );
 
 $row = "";
@@ -81,24 +81,22 @@ while ($r = $q->fetch_object())
 	echo $a[0].DELIM;
 	echo $r->games.DELIM;
 	echo histdiff($history,"games");
-	echo $r->medals.DELIM;
-	if (!NO_HIST) echo histdiff($history,"medals");
-	echo $r->medals_gold.DELIM;
-	if (!NO_HIST) echo histdiff($history,"medals_gold");
-	echo $r->medals_silver.DELIM;
-	if (!NO_HIST) echo histdiff($history,"medals_silver");
-	echo $r->medals_bronze.DELIM;
-	if (!NO_HIST) echo histdiff($history,"medals_bronze");
-	echo $r->cards.DELIM;
-	if (!NO_HIST) echo histdiff($history,"cards");
-	echo $r->environmental_kills.DELIM;
-	if (!NO_HIST) echo histdiff($history,"environmental_kills");
-	echo $r->environmental_deaths.DELIM;
-	if (!NO_HIST) echo histdiff($history,"environmental_deaths");
-	echo $r->teleporter_pads_destroyed.(NO_HIST ? "" :  DELIM);
-	if (!NO_HIST) echo substr(histdiff($history,"teleporter_pads_destroyed"),0,-1);
+	echo $r->damage_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"damage_high");
+	echo $r->eliminations_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"eliminations_high");
+	echo $r->solo_kills_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"solo_kills_high");
+	echo $r->final_blows_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"final_blows_high");
+	echo $r->objective_time_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"objective_time_high");
+	echo $r->objective_kills_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"objective_kills_high");
+	echo $r->healing_high.DELIM;
+	if (!NO_HIST) echo histdiff($history,"healing_high");
+	echo $r->time_spent_on_fire_high.(NO_HIST ? "" :  DELIM);
+	if (!NO_HIST) echo substr(histdiff($history,"time_spent_on_fire_high"),0,-1);
 	echo "\n";
 }
-// echo api_request("Juro#1208","stats");
-
 
