@@ -8,6 +8,19 @@ $f = fopen($csvfile,"r");
 
 $headers = fgetcsv($f,2000);
 
+
+function toMMSS($value) 
+{
+    $sec_num = ceil($value*60*60); // don't forget the second param
+    $minutes = floor($sec_num  / 60);
+    $seconds = $sec_num - ($minutes * 60);
+
+    if ($minutes < 10) {$minutes = "0".$minutes;}
+    if ($seconds < 10) {$seconds = "0".$seconds;}
+    return $minutes.':'.$seconds;
+}
+
+
 function formatting($value,$field,$fieldbefore)
 {
   $pos="";
@@ -26,6 +39,10 @@ function formatting($value,$field,$fieldbefore)
   if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
+  }
+  if (in_array($field,array("Object time High","on Fire High")))
+  {
+	return ($value>0?$pos:"") . toMMSS($value);
   }
   return ($value>0?$pos:"").$value;
   
