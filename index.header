@@ -33,8 +33,10 @@
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_TANK')">S3 Tank</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_SUPPORT')">S3 Support</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_MISC')">S3 Misc</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_HIGH')">S3 High</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM')">QM Overall</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HEROES')">QM Heroes</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_MISC')">QM Misc</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HIGH')">QM High</a></li>
 </ul>
 
