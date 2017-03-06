@@ -31,12 +31,12 @@ foreach ($player as $tag)
 	  if ($ob_heroes->eu->heroes->playtime->$modestr->$hero == 0) continue;
 	  $gs = $data_heroes->$hero->general_stats;
 	  if (!$gs->deaths) continue; # no death -> not played -> skip
-	  if (!$gs->deaths_average) continue; # no death -> not played -> skip
+	  if (!$data_heroes->$hero->average_stats->deaths_average) continue; # no death -> not played -> skip
 	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
 	  if ($blocked>0) $dmg_blocked += $blocked;
 	  else $blocked = "0";
 	  
-	  $hero_games_played = $gs->deaths / $gs->deaths_average;
+	  $hero_games_played = $gs->deaths / $data_heroes->$hero->average_stats->deaths_average;
 	  $sql="insert into ow_heroes
 			(`tag`, 
 			`mode`, 
@@ -60,7 +60,7 @@ foreach ($player as $tag)
 			'".$gs->deaths."',
 			'".$gs->damage_done."',
 			'".$blocked."',
-			'".$gs->healing_done."',
+			'".$gs->healing_done."'
 		)";
 
 	   if (DRYRUN) { echo $sql; } else { $db->query($sql); };
