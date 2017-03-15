@@ -27,13 +27,13 @@
 
 <body>
 <ul class="tab">
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'COMPETITIVE')">S3 Overall</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_OFFENSE')">S3 Offense</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_DEFENSE')">S3 Defense</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_TANK')">S3 Tank</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_SUPPORT')">S3 Support</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_MISC')">S3 Misc</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_HIGH')">S3 High</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'COMPETITIVE')">CS Overall</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_OFFENSE')">CS Offense</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_DEFENSE')">CS Defense</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_TANK')">CS Tank</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_SUPPORT')">CS Support</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_MISC')">CS Misc</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_HIGH')">CS High</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM')">QM Overall</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HEROES')">QM Heroes</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_MISC')">QM Misc</a></li>
