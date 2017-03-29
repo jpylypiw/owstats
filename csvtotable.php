@@ -114,4 +114,5 @@ foreach ($headers as $head) {
 ?>
 </tbody>
 </table>
+<a href="<?=$csvfile;?>">Raw CSV Output</a>
 </div>
