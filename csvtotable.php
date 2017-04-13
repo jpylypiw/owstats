@@ -21,6 +21,21 @@ function toMMSS($value)
 }
 
 
+function get_cellformat($value,$field)
+{
+  if (in_array($field,array("Change in %")))
+  {
+    $b = 0;
+    $r = 255;
+    if ($value<-0.15) $g=0;  // 1/0 red
+    if ($value<0) { $g=127 + 127*$value/0.15; } // 0->1/0.5 -0.15->1/0
+    if ($value>=0) { $r = 255 - 255 * $value / 0.15; $g = 127 + (127 * $value/0.15); }
+    if ($value>0.15) { $r = 0; $g = 255; }
+    return "style=\"background-color: rgb($r,$g,$b)\"";
+  }
+  return "";
+}
+
 function formatting($value,$field,$fieldbefore)
 {
   $pos="";
@@ -88,10 +103,11 @@ foreach ($headers as $head) {
 			$field = substr($field,strrpos($field,"|")+1);
 			$addclass = "small ".colorclass($field);
 		}
+		$cellformat = get_cellformat($field,$headers[$fnum]);
 		
 ?>
 	<td
-		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>">
+		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>" <?=$cellformat;?>>
 		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?><br/>
 <?php
 	if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
