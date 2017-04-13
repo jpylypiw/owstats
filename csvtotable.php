@@ -32,11 +32,15 @@ function formatting($value,$field,$fieldbefore)
 	$field=$fieldbefore;
 	$pos="+";
   }
-  if (in_array($field,array("K/D Ratio","Win Ratio","Kills")))
+  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week")))
   {
 	return ($value>0?$pos:"").number_format($value,2,",",".");
   }
-  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level")))
+  if (in_array($field,array("Change in %")))
+  {
+	return ($value>0?$pos:"").number_format($value*100,2,",",".");
+  }
+  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","Kills week","DMG week","Block week","Heal week")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }

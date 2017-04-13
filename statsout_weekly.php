@@ -56,7 +56,6 @@ while ($r = $q->fetch_object())
 	$a = explode("#", $tag);
 	echo $a[0].DELIM;
 	echo ($r->games - $f->games) .DELIM;
-	echo $r->games.DELIM;
 	echo ($r->rating - $f->rating) . DELIM;
 	echo (($r->rating - $f->rating)/$f->rating) . DELIM;
 	echo $r->rating . DELIM;
@@ -64,7 +63,7 @@ while ($r = $q->fetch_object())
 	echo (($r->kills - $f->kills)/$gamediff) . DELIM;
 	echo (($r->damage - $f->damage)/$gamediff) . DELIM;
 	echo (($r->blocked - $f->blocked)/$gamediff) . DELIM;
-	echo (($r->healing - $f->healing)/$gamediff) . DELIM;
+	echo (($r->healing - $f->healing)/$gamediff);
 	echo "\n";
 }
 // echo api_request("Juro#1208","stats");
