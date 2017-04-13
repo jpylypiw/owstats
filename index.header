@@ -27,14 +27,16 @@
 
 <body>
 <ul class="tab">
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'COMPETITIVE')">CS Overall</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_OFFENSE')">CS Offense</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_DEFENSE')">CS Defense</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_TANK')">CS Tank</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_SUPPORT')">CS Support</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_MISC')">CS Misc</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'S3_HIGH')">CS High</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM')">QM Overall</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_OVERALL')">CS Overall</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_WEEKLY')">CS Week</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_OFFENSE')">CS Offense</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_DEFENSE')">CS Defense</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_TANK')">CS Tank</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_SUPPORT')">CS Support</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_MISC')">CS Misc</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'CS_HIGH')">CS High</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_OVERALL')">QM Overall</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_WEEKLY')">QM Week</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HEROES')">QM Heroes</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_MISC')">QM Misc</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'QM_HIGH')">QM High</a></li>
