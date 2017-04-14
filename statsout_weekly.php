@@ -38,8 +38,10 @@ $recentdate=$r->date;
 
 
 $q = $db->query("select * from ow_general where `mode`='$mode' and `date`='$recentdate' order by `rating` DESC");
+$rows = array();
 while ($r = $q->fetch_object()) 
 {
+	$row = "";
 	$tag = $r->tag;
 	$ql = $db->query("
 		select * from ow_general where `mode`='$mode' and `date` = ('$recentdate' - INTERVAL $comparedays day) and `tag`='$tag' ORDER BY `date`");
@@ -54,18 +56,30 @@ while ($r = $q->fetch_object())
 	$gamediff = ($r->games - $f->games);
 	if ($gamediff < $mingames) continue;
 	$a = explode("#", $tag);
-	echo $a[0].DELIM;
-	echo ($r->games - $f->games) .DELIM;
-	echo ($r->rating - $f->rating) . DELIM;
-	echo (($r->rating - $f->rating)/$f->rating) . DELIM;
-	echo $r->rating . DELIM;
-	echo (($r->kills-$f->kills) / ($r->deaths - $f->deaths)) . DELIM;
-	echo (($r->kills - $f->kills)/$gamediff) . DELIM;
-	echo (($r->damage - $f->damage)/$gamediff) . DELIM;
-	echo (($r->blocked - $f->blocked)/$gamediff) . DELIM;
-	echo (($r->healing - $f->healing)/$gamediff);
-	echo "\n";
+	$row .= $a[0].DELIM;
+	$row.= ($r->games - $f->games) .DELIM;
+	$row.= ($r->rating - $f->rating) . DELIM;
+	$change = (($r->rating - $f->rating)/$f->rating);
+	$row.= $change . DELIM;
+	$row.= $r->rating . DELIM;
+	$row.=(($r->kills-$f->kills) / ($r->deaths - $f->deaths)) . DELIM;
+	$row.= (($r->kills - $f->kills)/$gamediff) . DELIM;
+	$row.= (($r->damage - $f->damage)/$gamediff) . DELIM;
+	$row.= (($r->blocked - $f->blocked)/$gamediff) . DELIM;
+	$row.= (($r->healing - $f->healing)/$gamediff);
+	$row.= "\n";
+	$rows[] = array('change'=>$change, 'row'=>$row);
 }
+function bychange($a,$b) {
+  if ($a['change']==$b['change']) return 0;
+  return ($a['change']<$b['change'] ? 1 : -1);
+}
+uasort($rows,'bychange');
+foreach ($rows as $row)
+{
+	echo $row['row'];
+}
+
 // echo api_request("Juro#1208","stats");
 
 
