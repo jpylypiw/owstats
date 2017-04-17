@@ -27,10 +27,10 @@ function get_cellformat($value,$field)
   {
     $b = 0;
     $r = 255;
-    if ($value<-0.15) $g=0;  // 1/0 red
-    if ($value<0) { $g=127 + 127*$value/0.15; } // 0->1/0.5 -0.15->1/0
-    if ($value>=0) { $r = 255 - 255 * $value / 0.15; $g = 127 + (127 * $value/0.15); }
-    if ($value>0.15) { $r = 0; $g = 255; }
+    if ($value<-0.14) $g=0;  // 1/0 red
+    if ($value>0.14) { $r = 0; $g = 255; }
+    $r = ceil(255*floor(((16.0-(100*$value+2.0))/16.0)*4)/4);
+    $g = ceil(255*floor((((100*$value+14.0))/16.0)*4)/4);
     return "style=\"background-color: rgb($r,$g,$b)\"";
   }
   return "";
@@ -92,6 +92,7 @@ foreach ($headers as $head) {
 <?php
  while ($row = fgetcsv($f))
  {
+		$cellformat = get_cellformat($row[3],$headers[3]);
 ?>
 <tr>
 <?php
@@ -103,7 +104,6 @@ foreach ($headers as $head) {
 			$field = substr($field,strrpos($field,"|")+1);
 			$addclass = "small ".colorclass($field);
 		}
-		$cellformat = get_cellformat($field,$headers[$fnum]);
 		
 ?>
 	<td
