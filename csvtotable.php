@@ -47,7 +47,7 @@ function formatting($value,$field,$fieldbefore)
 	$field=$fieldbefore;
 	$pos="+";
   }
-  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week")))
+  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week")))
   {
 	return ($value>0?$pos:"").number_format($value,2,",",".");
   }
@@ -55,7 +55,7 @@ function formatting($value,$field,$fieldbefore)
   {
 	return ($value>0?$pos:"").number_format($value*100,2,",",".");
   }
-  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","Kills week","DMG week","Block week","Heal week")))
+  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","Kills week","DMG week","Block week","Heal week","current Rating")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }
