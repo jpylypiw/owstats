@@ -42,7 +42,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
      }
      body { 
 	   font: 14px/1.4 Georgia, Serif; 
-	   background: url(img/bg.png);
+	   background: url(img/bg.jpg);
 	   background-size: 100%;
      }
     #page-wrap {
@@ -114,3 +114,17 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 .green { color: #0e0; }
 
 .nobr { white-space: nowrap; }
+
+.header {
+
+}
+
+th.invis {
+	color: #333; 
+
+}
+
+td.change {
+	text-align: left;
+}
+

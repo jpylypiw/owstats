@@ -47,15 +47,15 @@ function formatting($value,$field,$fieldbefore)
 	$field=$fieldbefore;
 	$pos="+";
   }
-  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week")))
+  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week","iKD","iKI")))
   {
 	return ($value>0?$pos:"").number_format($value,2,",",".");
   }
-  if (in_array($field,array("Change in %")))
+  if (in_array($field,array("Change in %","iCH")))
   {
 	return ($value>0?$pos:"").number_format($value*100,2,",",".");
   }
-  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","Kills week","DMG week","Block week","Heal week","current Rating")))
+  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","DMG week","Block week","Heal week","current Rating","iGW","iDM","iBL","iHE","iCR")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }
@@ -81,8 +81,11 @@ function colorclass($value)
 <tr>
 <?php
 foreach ($headers as $head) {
+	$addclass="";
+	if ($head[0]=="i") $addclass=" invis";
+
 ?>
-	<th class="header"><?=$head;?></th>
+	<th class="header<?=$addclass;?>"><?=$head;?></th>
 <?php
 }
 ?>
@@ -104,6 +107,7 @@ foreach ($headers as $head) {
 			$field = substr($field,strrpos($field,"|")+1);
 			$addclass = "small ".colorclass($field);
 		}
+		if ($headers[$fnum][0]=="i") $addclass = "change";
 		
 ?>
 	<td
