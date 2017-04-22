@@ -92,7 +92,7 @@ foreach ($headers as $head) {
 <?php
  while ($row = fgetcsv($f))
  {
-		$cellformat = get_cellformat($row[3],$headers[3]);
+		$cellformat = get_cellformat($row[5],$headers[5]);
 ?>
 <tr>
 <?php
