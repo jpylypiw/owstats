@@ -43,16 +43,14 @@ while ($r = $q->fetch_object())
 {
 	$row = "";
 	$tag = $r->tag;
-	$ql = $db->query("
-		select * from ow_general where `mode`='$mode' and `date` = ('$recentdate' - INTERVAL $comparedays day) and `tag`='$tag' ORDER BY `date`");
+	$ql = $db->query("select * from ow_general where `mode`='$mode' and `date` = ('$recentdate' - INTERVAL $comparedays day) and `tag`='$tag' ORDER BY `date`");
 	$history = array();
-	if ($rl = $ql->fetch_object())
-	{
-		$history[] = $rl;
-	} else {
-		continue;
-	}
-	$f = $history[0];
+	if ($rl = $ql->fetch_object()) { $f = $rl; } else { continue; }
+	
+	# grab stats from 2 weeks ago
+	$ql = $db->query("select * from ow_general where `mode`='$mode' and `date` = ('$recentdate' - INTERVAL (2 * $comparedays) day) and `tag`='$tag' ORDER BY `date`");
+	if ($rl = $ql->fetch_object()) { $g = $rl; } else { $g = $f; }
+
 	$gamediff = ($r->games - $f->games);
 	if ($gamediff < $mingames) continue;
 	$a = explode("#", $tag);
