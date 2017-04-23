@@ -74,16 +74,16 @@ while ($r = $q->fetch_object())
 	$row.= $change2 . DELIM;
 	$row.= $r->rating . DELIM;
 	$row.= $f->rating . DELIM;
-	$row.=(($r->kills-$f->kills) / ($r->deaths - $f->deaths)) . DELIM;
-	$row.=(($f->kills-$g->kills) / ($f->deaths - $g->deaths)) . DELIM;
+	$row.= (($r->kills-$f->kills) / ($r->deaths - $f->deaths)) . DELIM;
+	$row.= (($r->kills-$f->kills) / ($r->deaths - $f->deaths)) - (($f->kills-$g->kills) / ($f->deaths - $g->deaths)) . DELIM;
 	$row.= (($r->kills - $f->kills)/$gamediff) . DELIM;
-	$row.= (($f->kills - $g->kills)/$gamediff2) . DELIM;
+	$row.= (($r->kills - $f->kills)/$gamediff) - (($f->kills - $g->kills)/$gamediff2) . DELIM;
 	$row.= (($r->damage - $f->damage)/$gamediff) . DELIM;
-	$row.= (($f->damage - $g->damage)/$gamediff2) . DELIM;
+	$row.= (($r->damage - $f->damage)/$gamediff) - (($f->damage - $g->damage)/$gamediff2) . DELIM;
 	$row.= (($r->blocked - $f->blocked)/$gamediff) . DELIM;
-	$row.= (($f->blocked - $g->blocked)/$gamediff2) . DELIM;
+	$row.= (($r->blocked - $f->blocked)/$gamediff) - (($f->blocked - $g->blocked)/$gamediff2) . DELIM;
 	$row.= (($r->healing - $f->healing)/$gamediff) . DELIM;
-	$row.= (($f->healing - $g->healing)/$gamediff2);
+	$row.= (($r->healing - $f->healing)/$gamediff) - (($f->healing - $g->healing)/$gamediff2);
 	$row.= "\n";
 	$rows[] = array('change'=>$change, 'row'=>$row);
 }

@@ -127,4 +127,10 @@ th.invis {
 td.change {
 	text-align: left;
 }
+td.change:before {
+	content: "(";
+}
+td.change:after {
+	content: ")";
+}
 

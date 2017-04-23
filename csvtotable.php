@@ -112,8 +112,8 @@ foreach ($headers as $head) {
 ?>
 	<td
 		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>" <?=$cellformat;?>>
-		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?><br/>
-<?php
+		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?> 
+	<?php
 	if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
 		$chartvalsa = explode("|",$chartvals);
 		$noval = true;
@@ -123,6 +123,7 @@ foreach ($headers as $head) {
 		}
 		if (!$noval) {
 ?>
+		<br/>
 		<span class="chart" title="<?=$field;?>"><?=str_replace("|",",",$chartvals);?></span>
 <?php
 		}
