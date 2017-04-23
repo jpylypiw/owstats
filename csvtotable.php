@@ -47,6 +47,11 @@ function formatting($value,$field,$fieldbefore)
 	$field=$fieldbefore;
 	$pos="+";
   }
+  if ($field[0]=="i")
+  {
+	if (abs($value)<0.005) return "";
+	if ($field != "iCR") $pos="+";
+  }
   if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week","iKD","iKI")))
   {
 	return ($value>0?$pos:"").number_format($value,2,",",".");
@@ -82,7 +87,7 @@ function colorclass($value)
 <?php
 foreach ($headers as $head) {
 	$addclass="";
-	if ($head[0]=="i") $addclass=" invis";
+	if ($head && $head[0]=="i") $addclass=" invis";
 
 ?>
 	<th class="header<?=$addclass;?>"><?=$head;?></th>
@@ -107,7 +112,9 @@ foreach ($headers as $head) {
 			$field = substr($field,strrpos($field,"|")+1);
 			$addclass = "small ".colorclass($field);
 		}
-		if ($headers[$fnum][0]=="i") $addclass = "change";
+		if ($headers[$fnum] && $headers[$fnum][0]=="i") {
+			$addclass = "change";
+		}
 		
 ?>
 	<td
