@@ -126,11 +126,13 @@ th.invis {
 
 td.change {
 	text-align: left;
+	font-size: 8pt;
 }
+/*
 td.change:before {
 	content: "(";
 }
 td.change:after {
 	content: ")";
 }
-
+*/
