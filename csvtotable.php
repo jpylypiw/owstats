@@ -50,7 +50,7 @@ function formatting($value,$field,$fieldbefore)
   if ($field[0]=="i")
   {
 	if (abs($value)<0.005) return "";
-	if ($field != "iCR") $pos="+";
+	if (!in_array($field, array("iGW"))) $pos="+";
   }
   if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week","iKD","iKI")))
   {
