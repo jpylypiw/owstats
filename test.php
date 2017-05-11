@@ -49,7 +49,8 @@ $heroes = array(
           "zarya",
           "winston",
           "roadhog",
-          "dva"
+          "d.va",
+	  "orisa"
 	),
 	'support' => array(
           "zenyatta",
@@ -76,8 +77,8 @@ $players = array(
 # print_r(get_stats("Juro-1208",$argv[1]));
 
 # print_r(get_stats("Hardhörnchen-2577",$argv[2],$argv[1]));
-# print_r(get_stats("Iluv-2966",$argv[2],$argv[1]));
-print_r(get_stats("Juro-1208",$argv[2],$argv[1]));
+print_r(get_stats("Iluv-2966",$argv[2],$argv[1]));
+# print_r(get_stats("Juro-1208",$argv[2],$argv[1]));
 
 /*
 		foreach ($blocker as $hero)
