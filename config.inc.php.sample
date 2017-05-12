@@ -1,0 +1,51 @@
+<?php
+$comparedays = 7;
+
+$player = array(
+'PlayerName#12345'
+'AnotherPlayer#23456'
+);
+
+// for ad-hoc processing
+$playerZZZ = array(
+);
+
+$heroes = array(
+	'offense' => array(
+	  "mccree",
+          "genji",
+          "reaper",
+          "tracer",
+          "pharah",
+          "soldier76",
+          "sombra"
+	),
+	'defense' => array(
+          "bastion",
+          "widowmaker",
+          "torbjorn",
+          "junkrat",
+          "mei",
+          "hanzo"
+	),
+	'tank' => array(
+          "reinhardt",
+          "zarya",
+          "winston",
+          "roadhog",
+          "dva",
+	  "orisa"
+	),
+	'support' => array(
+          "zenyatta",
+          "symmetra",
+          "ana",
+          "lucio",
+          "mercy"
+	)
+);
+
+$blocker = array(
+        "mei", "reinhardt", "zarya", "winston", "dva", "orisa"
+);
+
