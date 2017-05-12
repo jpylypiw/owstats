@@ -3,3 +3,4 @@ index.html
 *.csv
 config.inc.php
 test.php
+db.php
