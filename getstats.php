@@ -18,9 +18,9 @@ foreach ($player as $tag)
 	$data = $ob->eu->stats->$modestr;
 	$data_heroes = $ob_heroes->eu->heroes->stats->$modestr;
 	echo $tag;
-	
+
 	$a = explode("#", $tag);
-	$games_played = round($data->game_stats->damage_done / $data->average_stats->damage_done_avg);
+	$games_played = round($data->game_stats->eliminations / $data->average_stats->eliminations_avg);
 	$dmg_blocked=0;
 	foreach ($heroes as $class)
 	{
@@ -35,19 +35,19 @@ foreach ($player as $tag)
 	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
 	  if ($blocked>0) $dmg_blocked += $blocked;
 	  else $blocked = "0";
-	  
+
 	  $hero_games_played = $gs->deaths / $data_heroes->$hero->average_stats->deaths_average;
 	  $sql="insert into ow_heroes
-			(`tag`, 
-			`mode`, 
-			`date`, 
+			(`tag`,
+			`mode`,
+			`date`,
 			`hero`,
-			`wins`, 
-			`games`, 
-			`kills`, 
-			`deaths`, 
-			`damage`, 
-			`blocked`, 
+			`wins`,
+			`games`,
+			`kills`,
+			`deaths`,
+			`damage`,
+			`blocked`,
 			`healing`
 		) values (
 			'$tag',
@@ -66,41 +66,41 @@ foreach ($player as $tag)
 	   if (DRYRUN) { echo $sql; } else { $db->query($sql); };
 	 }
 	}
-	$sql="insert into ow_general 
-		(`tag`, 
-		`mode`, 
-		`date`, 
-		`rating`, 
-		`wins`, 
-		`games`, 
-		`kills`, 
-		`deaths`, 
-		`damage`, 
-		`blocked`, 
+	$sql="insert into ow_general
+		(`tag`,
+		`mode`,
+		`date`,
+		`rating`,
+		`wins`,
+		`games`,
+		`kills`,
+		`deaths`,
+		`damage`,
+		`blocked`,
 		`healing`,
-		`medals`, 
-		`medals_gold`, 
-		`medals_silver`, 
-		`medals_bronze`, 
-		`cards`, 
-		`environmental_kills`, 
-		`environmental_deaths`, 
-		`teleporter_pads_destroyed`, 
-		`damage_high`, 
-		`eliminations_high`, 
-		`solo_kills_high`, 
-		`final_blows_high`, 
-		`objective_time_high`, 
-		`objective_kills_high`, 
-		`healing_high`, 
+		`medals`,
+		`medals_gold`,
+		`medals_silver`,
+		`medals_bronze`,
+		`cards`,
+		`environmental_kills`,
+		`environmental_deaths`,
+		`teleporter_pads_destroyed`,
+		`damage_high`,
+		`eliminations_high`,
+		`solo_kills_high`,
+		`final_blows_high`,
+		`objective_time_high`,
+		`objective_kills_high`,
+		`healing_high`,
 		`time_spent_on_fire_high`
 	) values (
 		'$tag',
 		'$mode',
 		'".date("Y-m-d")."',
 		".(
-		$mode=="COMPETITIVE" 
-			? $data->overall_stats->comprank 
+		$mode=="COMPETITIVE"
+			? $data->overall_stats->comprank
 			: ( $data->overall_stats->prestige * 100)+$data->overall_stats->level ).",
 		".$data->game_stats->games_won.",
 		".$games_played.",
@@ -134,4 +134,3 @@ foreach ($player as $tag)
     return;
   }
 }
-
