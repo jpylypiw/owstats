@@ -9,7 +9,7 @@ $f = fopen($csvfile,"r");
 $headers = fgetcsv($f,2000);
 
 
-function toMMSS($value) 
+function toMMSS($value)
 {
     $sec_num = ceil($value*60*60); // don't forget the second param
     $minutes = floor($sec_num  / 60);
@@ -60,7 +60,9 @@ function formatting($value,$field,$fieldbefore)
   {
 	return ($value>0?$pos:"").number_format($value*100,2,",",".");
   }
-  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played","Rank","Level","DMG week","Block week","Heal week","current Rating","iGW","iDM","iBL","iHE","iCR")))
+  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played",
+    "Rank","Level","DMG week","DMG High","Healing High","Block week",
+    "Heal week","current Rating","iGW","iDM","iBL","iHE","iCR")))
   {
 	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
   }
@@ -69,7 +71,7 @@ function formatting($value,$field,$fieldbefore)
 	return ($value>0?$pos:"") . toMMSS($value);
   }
   return ($value>0?$pos:"").$value;
-  
+
 }
 
 function colorclass($value)
@@ -115,11 +117,11 @@ foreach ($headers as $head) {
 		if ($headers[$fnum] && $headers[$fnum][0]=="i") {
 			$addclass = "change";
 		}
-		
+
 ?>
 	<td
 		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>" <?=$cellformat;?>>
-		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?> 
+		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?>
 	<?php
 	if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
 		$chartvalsa = explode("|",$chartvals);
