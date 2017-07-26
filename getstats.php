@@ -20,8 +20,6 @@ foreach ($player as $tag)
 	echo $tag;
 
 	$a = explode("#", $tag);
-	$games_played = $data->overall_stats->games;
-	$dmg_blocked = $data->game_stats->damage_blocked;
 	foreach ($heroes as $class)
 	{
 	 if (NO_HEROES) continue;
@@ -32,7 +30,6 @@ foreach ($player as $tag)
 	  $gs = $data_heroes->$hero->general_stats;
 	  if (!$gs->deaths) continue; # no death -> not played -> skip
 	  if (!$data_heroes->$hero->average_stats->deaths_average) continue; # no death -> not played -> skip
-	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
 
 	  $hero_games_played = $gs->deaths / $data_heroes->$hero->average_stats->deaths_average;
 	  $sql="insert into ow_heroes
@@ -56,8 +53,8 @@ foreach ($player as $tag)
 			'".$hero_games_played."',
 			'".$gs->eliminations."',
 			'".$gs->deaths."',
-			'".$gs->damage_done."',
-			'".$blocked."',
+			'".$gs->hero_damage_done."',
+			'".(isset($data_heroes->$hero->hero_stats->damage_blocked) ? $data_heroes->$hero->hero_stats->damage_blocked : "0")."',
 			'".$gs->healing_done."'
 		)";
 
@@ -101,7 +98,7 @@ foreach ($player as $tag)
 			? $data->overall_stats->comprank
 			: ( $data->overall_stats->prestige * 100)+$data->overall_stats->level ).",
 		".$data->game_stats->games_won.",
-		".$games_played.",
+		".$data->overall_stats->games.",
 		".$data->game_stats->eliminations.",
 		".$data->game_stats->deaths.",
 		".$data->game_stats->hero_damage_done.",
@@ -114,8 +111,8 @@ foreach ($player as $tag)
 		'".$data->game_stats->cards."',
 		'".$data->game_stats->environmental_kills."',
 		'".$data->game_stats->environmental_deaths."',
-		'".$data->game_stats->teleporter_pads_destroyed."',
-		'".$data->game_stats->damage_done_most_in_game."',
+		'".(isset($data->game_stats->teleporter_pads_destroyed) ? $data->game_stats->teleporter_pads_destroyed : "0")."',
+		'".$data->game_stats->hero_damage_done_most_in_game."',
 		'".$data->game_stats->eliminations_most_in_game."',
 		'".$data->game_stats->solo_kills_most_in_game."',
 		'".$data->game_stats->final_blows_most_in_game."',
