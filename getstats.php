@@ -20,8 +20,8 @@ foreach ($player as $tag)
 	echo $tag;
 
 	$a = explode("#", $tag);
-	$games_played = round($data->game_stats->eliminations / $data->average_stats->eliminations_avg);
-	$dmg_blocked=0;
+	$games_played = $data->overall_stats->games;
+	$dmg_blocked = $data->game_stats->damage_blocked;
 	foreach ($heroes as $class)
 	{
 	 if (NO_HEROES) continue;
@@ -33,8 +33,6 @@ foreach ($player as $tag)
 	  if (!$gs->deaths) continue; # no death -> not played -> skip
 	  if (!$data_heroes->$hero->average_stats->deaths_average) continue; # no death -> not played -> skip
 	  $blocked = $data_heroes->$hero->hero_stats->damage_blocked;
-	  if ($blocked>0) $dmg_blocked += $blocked;
-	  else $blocked = "0";
 
 	  $hero_games_played = $gs->deaths / $data_heroes->$hero->average_stats->deaths_average;
 	  $sql="insert into ow_heroes
