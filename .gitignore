@@ -4,3 +4,4 @@ index.html
 config.inc.php
 test.php
 db.php
+*.json
