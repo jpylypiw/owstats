@@ -8,6 +8,7 @@ define('NO_HEROES',false);
 
 ob_end_flush();
 if (DRYRUN) echo "DRYRUN ACTIVE\n";
+$region = "eu";
 foreach ($player as $tag)
 {
   $ob = get_stats($tag,"stats");
@@ -128,4 +129,41 @@ foreach ($player as $tag)
     echo "END OF DRYRUN\n";
     return;
   }
+
+  $tagset = array();
+  $tagset['region'] = $region;
+  $tagset['player'] = $tag;
+  $stats = get_stats($tag,"stats");
+  
+  foreach ($stats->$region->stats as $mode => $mstat)
+  {
+    $tagset['mode'] = $mode;
+    unset($mstat->competitive);
+    $fieldset = array();
+    foreach ($mstat as $table => $values)
+    {
+      $fieldset = array_merge($fieldset, (array)$values);
+    }
+    ixdb_insert("overall",$tagset,$fieldset);
+  }
+  
+  $heroes = get_stats($tag,"heroes");
+  
+  foreach ($heroes->$region->heroes->stats as $mode => $heroes)
+  {
+    $tagset['mode'] = $mode;
+    echo "\n";
+    foreach ($heroes as $hero => $tables)
+    {
+      $tagset["hero"]=$hero;
+      $fieldset = array();
+      foreach ($tables as $table => $values)
+      {
+        $fieldset = array_merge($fieldset, (array)$values);
+      }
+      ixdb_insert("heroes",$tagset,$fieldset);
+    }
+  
+  }
+
 }

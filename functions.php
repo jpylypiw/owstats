@@ -52,3 +52,25 @@ function get_stats($battletag,$function="general",$apiv="v3")
         return json_decode(api_request($battletag,$function,$apiv));
 }
 
+function ixdb_insert($table,$tagset,$fieldset,$timestamp=null,$db="overwatch")
+{
+  ksort($tagset);
+  ksort($fieldset);
+  $tagline = implode(',', array_map(
+    function ($v, $k) { return sprintf("%s='%s'", $k, $v); },
+    $tagset,  array_keys($tagset)
+  ));
+  $fieldline = implode(',', array_map(
+    function ($v, $k) { return sprintf("%s=".(is_string($v) ?"\"%s\"" : "%s"), $k, $v); },
+    $fieldset,  array_keys($fieldset)
+  ));
+
+  $line = "$table,$tagline $fieldline".(isset($timestamp) ? " ".$timestamp : "");
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "http://localhost:8086/write?db=$db");
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $line);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  echo curl_exec($ch).".";
+}
+
