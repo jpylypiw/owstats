@@ -1,12 +1,12 @@
 <?php
 
 $csvfile = $argv[1];
-$mode=substr($csvfile,strpos($csvfile,"_")+1,-4);
+$mode=substr($csvfile, strpos($csvfile, "_")+1, -4);
 
 
-$f = fopen($csvfile,"r");
+$f = fopen($csvfile, "r");
 
-$headers = fgetcsv($f,2000);
+$headers = fgetcsv($f, 2000);
 
 
 function toMMSS($value)
@@ -15,70 +15,81 @@ function toMMSS($value)
     $minutes = floor($sec_num  / 60);
     $seconds = $sec_num - ($minutes * 60);
 
-    if ($minutes < 10) {$minutes = "0".$minutes;}
-    if ($seconds < 10) {$seconds = "0".$seconds;}
+    if ($minutes < 10) {
+        $minutes = "0".$minutes;
+    }
+    if ($seconds < 10) {
+        $seconds = "0".$seconds;
+    }
     return $minutes.':'.$seconds;
 }
 
 
-function get_cellformat($value,$field)
+function get_cellformat($value, $field)
 {
-  if (in_array($field,array("Change in %")))
-  {
-    $b = 0;
-    $r = 255;
-    if ($value<-0.14) $g=0;  // 1/0 red
-    if ($value>0.14) { $r = 0; $g = 255; }
-    $r = ceil(255*floor(((16.0-(100*$value+2.0))/16.0)*4)/4);
-    $g = ceil(255*floor((((100*$value+14.0))/16.0)*4)/4);
-    return "style=\"background-color: rgb($r,$g,$b)\"";
-  }
-  return "";
+    if (in_array($field, array("Change in %"))) {
+        $b = 0;
+        $r = 255;
+        if ($value<-0.14) {
+            $g=0;  // 1/0 red
+        }
+        if ($value>0.14) {
+            $r = 0;
+            $g = 255;
+        }
+        $r = ceil(255*floor(((16.0-(100*$value+2.0))/16.0)*4)/4);
+        $g = ceil(255*floor((((100*$value+14.0))/16.0)*4)/4);
+        return "style=\"background-color: rgb($r,$g,$b)\"";
+    }
+    return "";
 }
 
-function formatting($value,$field,$fieldbefore)
+function formatting($value, $field, $fieldbefore)
 {
-  $pos="";
-  if (!$field)
-  {
-	$value = explode("|",$value);
-	$value = $value[count($value)-1];
-	if (abs($value)<0.005) return "";
-	$field=$fieldbefore;
-	$pos="+";
-  }
-  if ($field[0]=="i")
-  {
-	if (abs($value)<0.005) return "";
-	if (!in_array($field, array("iGW"))) $pos="+";
-  }
-  if (in_array($field,array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week","iKD","iKI")))
-  {
-	return ($value>0?$pos:"").number_format($value,2,",",".");
-  }
-  if (in_array($field,array("Change in %","iCH")))
-  {
-	return ($value>0?$pos:"").number_format($value*100,2,",",".");
-  }
-  if (in_array($field,array("Games","Wins","Heal","Dmg","Block","Time played",
+    $pos="";
+    if (!$field) {
+        $value = explode("|", $value);
+        $value = $value[count($value)-1];
+        if (abs($value)<0.005) {
+            return "";
+        }
+        $field=$fieldbefore;
+        $pos="+";
+    }
+    if ($field[0]=="i") {
+        if (abs($value)<0.005) {
+            return "";
+        }
+        if (!in_array($field, array("iGW"))) {
+            $pos="+";
+        }
+    }
+    if (in_array($field, array("K/D Ratio","Win Ratio","Kills","KD/A week","Kills week","iKD","iKI"))) {
+        return ($value>0?$pos:"").number_format($value, 2, ",", ".");
+    }
+    if (in_array($field, array("Change in %","iCH"))) {
+        return ($value>0?$pos:"").number_format($value*100, 2, ",", ".");
+    }
+    if (in_array($field, array("Games","Wins","Heal","Dmg","Block","Time played",
     "Rank","Level","DMG week","DMG High","Healing High","Block week",
-    "Heal week","current Rating","iGW","iDM","iBL","iHE","iCR")))
-  {
-	return ($value>0?$pos:"").number_format(ceil($value),0,",",".");
-  }
-  if (in_array($field,array("Object time High","on Fire High")))
-  {
-	return ($value>0?$pos:"") . toMMSS($value);
-  }
-  return ($value>0?$pos:"").$value;
-
+    "Heal week","current Rating","iGW","iDM","iBL","iHE","iCR"))) {
+        return ($value>0?$pos:"").number_format(ceil($value), 0, ",", ".");
+    }
+    if (in_array($field, array("Object time High","on Fire High"))) {
+        return ($value>0?$pos:"") . toMMSS($value);
+    }
+    return ($value>0?$pos:"").$value;
 }
 
 function colorclass($value)
 {
-  if ($value>0.1) return "green";
-  if ($value<-0.1) return "red";
-  return "";
+    if ($value>0.1) {
+        return "green";
+    }
+    if ($value<-0.1) {
+        return "red";
+    }
+    return "";
 }
 
 ?>
@@ -88,11 +99,13 @@ function colorclass($value)
 <tr>
 <?php
 foreach ($headers as $head) {
-	$addclass="";
-	if ($head && $head[0]=="i") $addclass=" invis";
+    $addclass="";
+    if ($head && $head[0]=="i") {
+        $addclass=" invis";
+    }
 
 ?>
-	<th class="header<?=$addclass;?>"><?=$head;?></th>
+    <th class="header<?=$addclass;?>"><?=$head;?></th>
 <?php
 }
 ?>
@@ -100,51 +113,50 @@ foreach ($headers as $head) {
 </thead>
 <tbody>
 <?php
- while ($row = fgetcsv($f))
- {
-		$cellformat = get_cellformat($row[5],$headers[5]);
+while ($row = fgetcsv($f)) {
+      $cellformat = get_cellformat($row[5], $headers[5]);
 ?>
 <tr>
 <?php
-	foreach ($row as $fnum=> $field)
-	{
-		$addclass = "";
-		if (!$headers[$fnum]) {
-			$chartvals = $field;
-			$field = substr($field,strrpos($field,"|")+1);
-			$addclass = "small ".colorclass($field);
-		}
-		if ($headers[$fnum] && $headers[$fnum][0]=="i") {
-			$addclass = "change";
-		}
+foreach ($row as $fnum => $field) {
+    $addclass = "";
+    if (!$headers[$fnum]) {
+        $chartvals = $field;
+        $field = substr($field, strrpos($field, "|")+1);
+        $addclass = "small ".colorclass($field);
+    }
+    if ($headers[$fnum] && $headers[$fnum][0]=="i") {
+        $addclass = "change";
+    }
 
 ?>
-	<td
-		data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>" <?=$cellformat;?>>
-		<?php /* if ($headers[$fnum]) */ echo formatting($field,$headers[$fnum],$headers[abs($fnum-1)]);?>
-	<?php
-	if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
-		$chartvalsa = explode("|",$chartvals);
-		$noval = true;
-		foreach ($chartvalsa as $value)
-		{
-			if ($value!=0) $noval = false;
-		}
-		if (!$noval) {
-?>
-		<br/>
-		<span class="chart" title="<?=$field;?>"><?=str_replace("|",",",$chartvals);?></span>
+<td
+ data-td="<?=$headers[$fnum];?>" data-value="<?=$field;?>" class="nowrap <?=$addclass;?>" <?=$cellformat;?>>
+    <?php /* if ($headers[$fnum]) */ echo formatting($field, $headers[$fnum], $headers[abs($fnum-1)]);?>
 <?php
-		}
-	}
+if (!$headers[$fnum] && ($fnum>6 || ($mode!="QM" && $fnum==2))) {
+    $chartvalsa = explode("|", $chartvals);
+    $noval = true;
+    foreach ($chartvalsa as $value) {
+        if ($value!=0) {
+            $noval = false;
+        }
+    }
+    if (!$noval) {
 ?>
-	</td>
+    <br/>
+    <span class="chart" title="<?=$field;?>"><?=str_replace("|", ",", $chartvals);?></span>
 <?php
-	}
+    }
+}
+?>
+</td>
+<?php
+}
 ?>
 </tr>
 <?php
- }
+}
 ?>
 </tbody>
 </table>
