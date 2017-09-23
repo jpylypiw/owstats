@@ -10,6 +10,7 @@ const Mysql = require("mysql");
 const Http = require("http");
 const Database = require("./config/database");
 const Debug = require("./config/debug");
+const Statistics = require("./functions/statistics.js");
 
 var connection = Mysql.createConnection({
     host: Database.host,
@@ -21,55 +22,141 @@ var connection = Mysql.createConnection({
 function updatePlayer() {
     if (Debug.verbose) console.log("updatePlayer()");
 
-    return new Promise(function(resolve, reject) {
-        connection.query("SELECT id, battleTag FROM `players` WHERE active = 1", function(err, result, fields) {
-            if (err) {
-                throw err;
-                reject(err);
-            }
+    return new Promise(async function(resolve, reject) {
+        var playerList = await selectFromTable(["players", "id, battleTag", "active = 1"]);
+        if (Statistics.active) Statistics.statistics.players = playerList.length;
+        var count = 0;
 
-            var count = 0;
-            result.forEach(function(player) {
-                callApi(player.battleTag.replace("#", "-")).then(function(owapi, err) {
-                    if (Debug.verbose) console.log("err: " + err + " type: " + typeof err);
-
-                    if (typeof err === "undefined") {
-                        checkActive(owapi, player.id).then(function(active) {
-                            if (active === true) {
-                                updateOverallStats(owapi, player.id).then(function() {
-                                    updateRollingAverageStats(owapi, player.id).then(function() {
-                                        updateGameStats(owapi, player.id).then(function() {
+        playerList.forEach(function(player) {
+            callApi(player.battleTag.replace("#", "-")).then(function(owapi, err) {
+                if (typeof err === "undefined") {
+                    checkActive(owapi, player.id).then(function(active) {
+                        if (active === true) {
+                            updateOverallStats(owapi, player.id).then(function() {
+                                updateRollingAverageStats(owapi, player.id).then(function() {
+                                    updateGameStats(owapi, player.id).then(function() {
+                                        updateHeroesGeneral(owapi, player.id).then(function() {
                                             count++;
-                                            if (count == result.length) {
+                                            if (count == playerList.length) {
                                                 resolve(true);
                                             }
                                         });
                                     });
                                 });
-                            } else {
-                                count++;
-                                if (count == result.length) {
-                                    resolve(true);
-                                }
+                            });
+                        } else {
+                            count++;
+                            if (count == playerList.length) {
+                                resolve(true);
                             }
-                        });
-                    } else {
-                        count++;
-                        if (count == result.length) {
-                            resolve(true);
                         }
+                    });
+                } else {
+                    count++;
+                    if (count == playerList.length) {
+                        resolve(true);
                     }
-                });
+                }
+            });
+        }, this);
+    });
+}
+
+function updateHeroesGeneral(owapi, playerId) {
+    if (Debug.verbose) console.log("updateHeroesGeneral()");
+
+    return new Promise(async function(resolve, reject) {
+        let finishedCP = false,
+            finishedQP = false,
+            countCP = 0,
+            countQP = 0;
+
+        if (owapi.eu.heroes.playtime.competitive !== null) {
+            var heroesCP = await getPlayedHeroes(owapi.eu.heroes.playtime.competitive);
+            heroesCP.forEach(async function(hero) {
+                var general_stats = await correctGameStats(owapi.eu.heroes.stats.competitive[hero].general_stats);
+                general_stats.player_id = playerId;
+                general_stats.competitive = 1;
+                general_stats.hero = hero;
+                var response = await insertIntoTable(["hero_general_stats", general_stats]);
+                countCP++;
+                if (countCP == heroesCP.length) {
+                    finishedCP = true;
+                }
+                if (finishedCP == true && finishedQP == true) resolve(true);
             }, this);
+        } else {
+            finishedCP = true;
+        }
+
+        if (owapi.eu.heroes.playtime.quickplay !== null) {
+            var heroesQP = await getPlayedHeroes(owapi.eu.heroes.playtime.quickplay);
+            heroesQP.forEach(async function(hero) {
+                var general_stats = await correctGameStats(owapi.eu.heroes.stats.quickplay[hero].general_stats);
+                general_stats.player_id = playerId;
+                general_stats.competitive = 0;
+                general_stats.hero = hero;
+                var response = await insertIntoTable(["hero_general_stats", general_stats]);
+                countQP++;
+                if (countQP == heroesQP.length) {
+                    finishedQP = true;
+                }
+                if (finishedCP == true && finishedQP == true) resolve(true);
+            }, this);
+        } else {
+            finishedCP = true;
+        }
+
+        if (finishedCP == true && finishedQP == true) resolve(true);
+    });
+}
+
+function insertIntoTable(data) {
+    return new Promise(function(resolve, reject) {
+        let table = data[0],
+            values = data[1];
+
+        connection.query("INSERT INTO `" + table + "` SET ?", values, function(err, result, fields) {
+            if (Statistics.active) Statistics.statistics.database.queries.insert++;
+            if (err) reject(err);
+            resolve(result);
         });
     });
 }
 
-async function updateGameStats(owapi, playerId) {
+function selectFromTable(data) {
+    return new Promise(function(resolve, reject) {
+        let table = data[0],
+            fields = data[1],
+            where = data[2];
+
+        connection.query("SELECT " + fields + " FROM `" + table + "` WHERE " + where, function(err, result, fields) {
+            if (Statistics.active) Statistics.statistics.database.queries.select++;
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
+}
+
+function getPlayedHeroes(allHeroes) {
+    return new Promise(function(resolve, reject) {
+        let playedHeroes = [],
+            i,
+            length = Object.keys(allHeroes).length,
+            keys = Object.keys(allHeroes);
+
+        for (i = 0; i < length; i++) {
+            if (allHeroes[keys[i]] > 0) playedHeroes.push(keys[i]);
+            if (i == length - 1) resolve(playedHeroes);
+        }
+    });
+}
+
+function updateGameStats(owapi, playerId) {
     if (Debug.verbose) console.log("updateGameStats()");
 
     return new Promise(async function(resolve, reject) {
-        let quickplay,
+        let quickplay = null,
             competitive = null;
 
         if (owapi.eu.stats.quickplay !== null) quickplay = owapi.eu.stats.quickplay.game_stats;
@@ -80,29 +167,25 @@ async function updateGameStats(owapi, playerId) {
             quickplay.competitive = 0;
             quickplay = await correctGameStats(quickplay);
 
-            connection.query("INSERT INTO `game_stats` SET ?", quickplay, async function(err, result, fields) {
-                if (err) reject(err);
+            var result = await insertIntoTable(["game_stats", quickplay]);
 
-                if (competitive !== null) {
-                    competitive.player_id = playerId;
-                    competitive.competitive = 1;
-                    competitive = await correctGameStats(competitive);
+            if (competitive !== null) {
+                competitive.player_id = playerId;
+                competitive.competitive = 1;
+                competitive = await correctGameStats(competitive);
 
-                    connection.query("INSERT INTO `game_stats` SET ?", competitive, function(err, result, fields) {
-                        if (err) reject(err);
-                        resolve(result);
-                    });
-                } else {
-                    resolve("no competitive played.");
-                }
-            });
+                result = await insertIntoTable(["game_stats", competitive]);
+                resolve(result);
+            } else {
+                resolve("no competitive played.");
+            }
         } else {
             resolve("no quickplay played. skipping competitive!");
         }
     });
 }
 
-async function correctGameStats(list) {
+function correctGameStats(list) {
     return new Promise(async function(resolve, reject) {
         if (list.hasOwnProperty("recon_assist_most_in_game"))
             list = await renameJsonKey([list, "recon_assist_most_in_game", "recon_assists_most_in_game"]);
@@ -128,6 +211,59 @@ async function correctGameStats(list) {
         if (list.hasOwnProperty("turret_destroyed")) list = await renameJsonKey([list, "turret_destroyed", "turrets_destroyed"]);
         if (list.hasOwnProperty("final_blow_most_in_game")) list = await renameJsonKey([list, "final_blow_most_in_game", "final_blows_most_in_game"]);
         if (list.hasOwnProperty("final_blow")) list = await renameJsonKey([list, "final_blow", "final_blows"]);
+        if (list.hasOwnProperty("elimination_most_in_life"))
+            list = await renameJsonKey([list, "elimination_most_in_life", "eliminations_most_in_life"]);
+        if (list.hasOwnProperty("death")) list = await renameJsonKey([list, "death", "deaths"]);
+        if (list.hasOwnProperty("solo_kill")) list = await renameJsonKey([list, "solo_kill", "solo_kills"]);
+        if (list.hasOwnProperty("card")) list = await renameJsonKey([list, "card", "cards"]);
+        if (list.hasOwnProperty("elimination_per_life")) list = await renameJsonKey([list, "elimination_per_life", "eliminations_per_life"]);
+        if (list.hasOwnProperty("critical_hit_most_in_life"))
+            list = await renameJsonKey([list, "critical_hit_most_in_life", "critical_hits_most_in_life"]);
+        if (list.hasOwnProperty("objective_kill_most_in_game"))
+            list = await renameJsonKey([list, "objective_kill_most_in_game", "objective_kills_most_in_game"]);
+        if (list.hasOwnProperty("elimination")) list = await renameJsonKey([list, "elimination", "elimination"]);
+        if (list.hasOwnProperty("defensive_assist")) list = await renameJsonKey([list, "defensive_assist", "defensive_assists"]);
+        if (list.hasOwnProperty("objective_kill")) list = await renameJsonKey([list, "objective_kill", "objective_kills"]);
+        if (list.hasOwnProperty("offensive_assist")) list = await renameJsonKey([list, "offensive_assist", "offensive_assists"]);
+        if (list.hasOwnProperty("offensive_assist_most_in_game"))
+            list = await renameJsonKey([list, "offensive_assist_most_in_game", "offensive_assists_most_in_game"]);
+        if (list.hasOwnProperty("turret_kill_most_in_game"))
+            list = await renameJsonKey([list, "turret_kill_most_in_game", "turret_kills_most_in_game"]);
+        if (list.hasOwnProperty("critical_hit_most_in_life"))
+            list = await renameJsonKey([list, "critical_hit_most_in_life", "critical_hits_most_in_life"]);
+        if (list.hasOwnProperty("elimination_most_in_game"))
+            list = await renameJsonKey([list, "elimination_most_in_game", "eliminations_most_in_game"]);
+        if (list.hasOwnProperty("defensive_assist_most_in_game"))
+            list = await renameJsonKey([list, "defensive_assist_most_in_game", "defensive_assists_most_in_game"]);
+        if (list.hasOwnProperty("critical_hit_most_in_game"))
+            list = await renameJsonKey([list, "critical_hit_most_in_game", "critical_hits_most_in_game"]);
+        if (list.hasOwnProperty("critical_hit")) list = await renameJsonKey([list, "critical_hit", "critical_hits"]);
+        if (list.hasOwnProperty("fan_the_hammer_kill_most_in_game"))
+            list = await renameJsonKey([list, "fan_the_hammer_kill_most_in_game", "fan_the_hammer_kills_most_in_game"]);
+        if (list.hasOwnProperty("self_destruct_kill_most_in_game"))
+            list = await renameJsonKey([list, "self_destruct_kill_most_in_game", "self_destruct_kills_most_in_game"]);
+        if (list.hasOwnProperty("self_destruct_kill")) list = await renameJsonKey([list, "self_destruct_kill", "self_destruct_kills"]);
+        if (list.hasOwnProperty("enemy_hacked")) list = await renameJsonKey([list, "enemy_hacked", "enemies_hacked"]);
+        if (list.hasOwnProperty("enemy_slept_most_in_game"))
+            list = await renameJsonKey([list, "enemy_slept_most_in_game", "enemies_slept_most_in_game"]);
+        if (list.hasOwnProperty("nano_boost_applied_most_in_game"))
+            list = await renameJsonKey([list, "nano_boost_applied_most_in_game", "nano_boosts_applied_most_in_game"]);
+        if (list.hasOwnProperty("primal_rage_kill")) list = await renameJsonKey([list, "primal_rage_kill", "primal_rage_kills"]);
+        if (list.hasOwnProperty("primal_rage_kill_most_in_game"))
+            list = await renameJsonKey([list, "primal_rage_kill_most_in_game", "primal_rage_kills_most_in_game"]);
+        if (list.hasOwnProperty("enemy_empd_most_in_game"))
+            list = await renameJsonKey([list, "enemy_empd_most_in_game", "enemies_empd_most_in_game"]);
+        if (list.hasOwnProperty("blaster_kill")) list = await renameJsonKey([list, "blaster_kill", "blaster_kills"]);
+        if (list.hasOwnProperty("enemy_hacked_most_in_game"))
+            list = await renameJsonKey([list, "enemy_hacked_most_in_game", "enemies_hacked_most_in_game"]);
+        if (list.hasOwnProperty("blaster_kill_most_in_game"))
+            list = await renameJsonKey([list, "blaster_kill_most_in_game", "blaster_kills_most_in_game"]);
+        if (list.hasOwnProperty("enemy_slept")) list = await renameJsonKey([list, "enemy_slept", "enemies_slept"]);
+        if (list.hasOwnProperty("enemy_hacked_most_in_game"))
+            list = await renameJsonKey([list, "enemy_hacked_most_in_game", "enemies_hacked_most_in_game"]);
+        if (list.hasOwnProperty("biotic_grenade_kill")) list = await renameJsonKey([list, "biotic_grenade_kill", "biotic_grenade_kills"]);
+        if (list.hasOwnProperty("enemy_empd")) list = await renameJsonKey([list, "enemy_empd", "enemies_empd"]);
+
         resolve(list);
     });
 }
@@ -146,8 +282,8 @@ function renameJsonKey(array) {
 function updateOverallStats(owapi, playerId) {
     if (Debug.verbose) console.log("updateOverallStats()");
 
-    return new Promise(function(resolve, reject) {
-        let quickplay,
+    return new Promise(async function(resolve, reject) {
+        let quickplay = null,
             competitive = null;
 
         if (owapi.eu.stats.quickplay !== null) quickplay = owapi.eu.stats.quickplay.overall_stats;
@@ -157,26 +293,16 @@ function updateOverallStats(owapi, playerId) {
             quickplay.player_id = playerId;
             quickplay.competitive = 0;
             quickplay.ties = 0;
+            var result = await insertIntoTable(["overall_stats", quickplay]);
 
-            connection.query("INSERT INTO `overall_stats` SET ?", quickplay, function(err, result, fields) {
-                if (err) {
-                    reject(err);
-                }
-
-                if (competitive !== null) {
-                    competitive.player_id = playerId;
-                    competitive.competitive = 1;
-
-                    connection.query("INSERT INTO `overall_stats` SET ?", competitive, function(err, result, fields) {
-                        if (err) {
-                            reject(err);
-                        }
-                        resolve(result);
-                    });
-                } else {
-                    resolve("no competitive played.");
-                }
-            });
+            if (competitive !== null) {
+                competitive.player_id = playerId;
+                competitive.competitive = 1;
+                result = await insertIntoTable(["overall_stats", competitive]);
+                resolve(result);
+            } else {
+                resolve("no competitive played.");
+            }
         } else {
             resolve("no quickplay played. skipping competitive!");
         }
@@ -186,8 +312,8 @@ function updateOverallStats(owapi, playerId) {
 function updateRollingAverageStats(owapi, playerId) {
     if (Debug.verbose) console.log("updateRollingAverageStats()");
 
-    return new Promise(function(resolve, reject) {
-        let quickplay,
+    return new Promise(async function(resolve, reject) {
+        let quickplay = null,
             competitive = null;
 
         if (owapi.eu.stats.quickplay !== null) quickplay = owapi.eu.stats.quickplay.rolling_average_stats;
@@ -196,26 +322,16 @@ function updateRollingAverageStats(owapi, playerId) {
         if (quickplay !== null) {
             quickplay.player_id = playerId;
             quickplay.competitive = 0;
+            var result = await insertIntoTable(["rolling_average_stats", quickplay]);
 
-            connection.query("INSERT INTO `rolling_average_stats` SET ?", quickplay, function(err, result, fields) {
-                if (err) {
-                    reject(err);
-                }
-
-                if (competitive !== null) {
-                    competitive.player_id = playerId;
-                    competitive.competitive = 1;
-
-                    connection.query("INSERT INTO `rolling_average_stats` SET ?", competitive, function(err, result, fields) {
-                        if (err) {
-                            reject(err);
-                        }
-                        resolve(result);
-                    });
-                } else {
-                    resolve("no competitive played.");
-                }
-            });
+            if (competitive !== null) {
+                competitive.player_id = playerId;
+                competitive.competitive = 1;
+                result = await insertIntoTable(["rolling_average_stats", competitive]);
+                resolve(result);
+            } else {
+                resolve("no competitive played.");
+            }
         } else {
             resolve("no quickplay played. skipping competitive!");
         }
@@ -227,6 +343,7 @@ function callApi(battleTag) {
 
     return new Promise(function(resolve, reject) {
         Http.get("http://134.255.253.124:4444/api/v3/u/" + encodeURI(battleTag) + "/blob", resp => {
+            if (Statistics.active) Statistics.statistics.owapi.requests++;
             let data = "";
 
             resp.on("data", chunk => {
@@ -234,13 +351,16 @@ function callApi(battleTag) {
             });
 
             resp.on("end", () => {
+                if (Statistics.active) Statistics.statistics.owapi.responses++;
                 resolve(JSON.parse(data));
             });
 
             resp.on("error", err => {
+                if (Statistics.active) Statistics.statistics.owapi.errors++;
                 reject(err);
             });
         }).on("error", err => {
+            if (Statistics.active) Statistics.statistics.owapi.errors++;
             reject(err);
         });
     });
@@ -253,6 +373,10 @@ function checkActive(owapi, playerId) {
         if (typeof owapi === "object") {
             if (owapi.error === "404" || typeof owapi.eu === "undefined") {
                 connection.query("UPDATE `players` SET active = 0, modifyDate = NOW() WHERE id = " + playerId, function(err, result) {
+                    if (Statistics.active) {
+                        Statistics.statistics.database.queries.update++;
+                        Statistics.statistics.playersDeactivated++;
+                    }
                     if (err) {
                         resolve(false);
                     } else {
@@ -284,6 +408,8 @@ connection.connect(function(err) {
 
         connection.end(function(err) {
             if (err) throw err;
+
+            if (Statistics.active) Statistics.show();
         });
     });
 });
