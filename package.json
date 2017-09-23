@@ -1,15 +1,21 @@
 {
-  "name": "owstats",
-  "version": "1.0.0",
-  "description": "Kitania Overwatch Stats",
-  "main": "readdata.js",
-  "dependencies": {
-    "mysql": "^2.14.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jochen Pylypiw",
-  "license": "ISC"
+    "name": "owstats",
+    "version": "1.0.0",
+    "description": "Private Overwatch statistics backend application.",
+    "main": "readdata.js",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git://bitbucket.org/JuroX83/overwatch.git",
+        "private": true
+    },
+    "dependencies": {
+        "mysql": "*"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jochen Pylypiw <jochen@pylypiw.com>",
+    "license": "UNLICENSED"
 }
