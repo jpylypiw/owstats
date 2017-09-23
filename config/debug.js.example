@@ -1,0 +1,8 @@
+// debug.js
+// ======
+// Rename database.js.example to database.js and edit the settings below
+// ======
+
+module.exports = {
+    verbose: false
+};
