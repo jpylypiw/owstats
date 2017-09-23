@@ -32,9 +32,9 @@ We recommend a linux / unix environment for use of owapi and owstats.
 
 Linux Installation steps (Optimized for Debian):
 
-1. Follow the installation steps of OWAPI showed in their [README.md](https://github.com/SunDwarf/OWAPI/blob/master/README.md)
+1. Follow the installation steps of OWAPI showed in their [Readme](https://github.com/SunDwarf/OWAPI/blob/master/README.md)
 
-2. To use owapi as systemd service add the following content into the file `/lib/systemd/system/owapi.service` and edit the file for your environment.
+1. To use owapi as systemd service add the following content into the file `/lib/systemd/system/owapi.service` and edit the file for your environment.
 
 ``` bash
 [Unit]
@@ -55,7 +55,7 @@ Alias=owapi.service
 
 ```
 
-3. add the following content into `/PATH TO OWAPI/run.sh` and edit the file for your system.
+1. add the following content into `/PATH TO OWAPI/run.sh` and edit the file for your system.
 
 ``` bash
 #!/usr/bin/env bash
@@ -74,19 +74,19 @@ PYTHONPATH=. asphalt run -l uvloop config.yml
 exit 0
 ```
 
-4. start the owapi service and look out for errors. You have to cancel the script after starting using `Strg + C`
+1. start the owapi service and look out for errors. You have to cancel the script after starting using `Strg + C`
 
-5. Clone this repository into a folder you like. We recommend `/opt/owstats` or `/usr/local/owstats`
+1. Clone this repository into a folder you like. We recommend `/opt/owstats` or `/usr/local/owstats`
 
-6. Run `npm install` to setup the required Node.js Packages
+1. Run `npm install` to setup the required Node.js Packages
 
-7. execute the `setup.sql` file in your MySQL or MariaDB database.
+1. execute the `setup.sql` file in your MySQL or MariaDB database.
 
-8. Edit the `readdata.js` file with your database settings-
+1. Edit the `readdata.js` file with your database settings-
 
-9. Execute `node readdata.js` and watch for possible errors.
+1. Execute `node readdata.js` and watch for possible errors.
 
-10. Add the following line to your crontab with the command `crontab -e` and edit the execute frequency.
+1. Add the following line to your crontab with the command `crontab -e` and edit the execute frequency.
 
 ``` bash
 */30 * * * * /usr/bin/node /opt/owstats/readdata.js
