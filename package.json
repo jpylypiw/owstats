@@ -1,0 +1,15 @@
+{
+  "name": "owstats",
+  "version": "1.0.0",
+  "description": "Kitania Overwatch Stats",
+  "main": "readdata.js",
+  "dependencies": {
+    "mysql": "^2.14.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jochen Pylypiw",
+  "license": "ISC"
+}
