@@ -6,7 +6,7 @@
 const settings = require("../config/database");
 const mysql = require("mysql");
 const debug = require("../config/debug");
-const statistics = require("../functions/statistics.js");
+const statistics = require("../functions/statistics");
 
 module.exports = {
     connection: null,
