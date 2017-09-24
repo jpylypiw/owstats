@@ -6,22 +6,22 @@
 
 "use strict";
 
-const Http = require("http");
 const database = require("./functions/database");
-const Debug = require("./config/debug");
-const Statistics = require("./functions/statistics");
+const owapi = require("./functions/owapi");
+const debug = require("./config/debug");
+const statistics = require("./functions/statistics");
 const now = require("performance-now");
 
 function updatePlayer() {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         var playerList = await database.select(["players", "id, battleTag", "active = 1"]);
-        if (Debug.statistics) Statistics.statistics.players = playerList.length;
+        if (debug.statistics) statistics.statistics.players = playerList.length;
         var count = 0;
 
         playerList.forEach(function(player) {
-            callApi(player.battleTag.replace("#", "-")).then(function(owapi, err) {
+            owapi.blob(player.battleTag.replace("#", "-")).then(function(owapi, err) {
                 if (typeof err === "undefined") {
                     checkActive(owapi, player.id).then(function(active) {
                         if (active === true) {
@@ -56,7 +56,7 @@ function updatePlayer() {
 }
 
 function updateHeroesGeneral(owapi, playerId) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let finishedCP = false,
@@ -105,7 +105,7 @@ function updateHeroesGeneral(owapi, playerId) {
 }
 
 function getPlayedHeroes(allHeroes) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(function(resolve, reject) {
         let playedHeroes = [],
@@ -121,7 +121,7 @@ function getPlayedHeroes(allHeroes) {
 }
 
 function updateGameStats(owapi, playerId) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -154,7 +154,7 @@ function updateGameStats(owapi, playerId) {
 }
 
 function correctGameStats(list) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         if (list.hasOwnProperty("recon_assist_most_in_game"))
@@ -239,7 +239,7 @@ function correctGameStats(list) {
 }
 
 function renameJsonKey(array) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(resolve => {
         var newKey = array[2];
@@ -252,7 +252,7 @@ function renameJsonKey(array) {
 }
 
 function updateOverallStats(owapi, playerId) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -282,7 +282,7 @@ function updateOverallStats(owapi, playerId) {
 }
 
 function updateRollingAverageStats(owapi, playerId) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -310,42 +310,14 @@ function updateRollingAverageStats(owapi, playerId) {
     });
 }
 
-function callApi(battleTag) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
-
-    return new Promise(function(resolve, reject) {
-        Http.get("http://134.255.253.124:4444/api/v3/u/" + encodeURI(battleTag) + "/blob", resp => {
-            if (Debug.statistics) Statistics.statistics.owapi.requests++;
-            let data = "";
-
-            resp.on("data", chunk => {
-                data += chunk;
-            });
-
-            resp.on("end", () => {
-                if (Debug.statistics) Statistics.statistics.owapi.responses++;
-                resolve(JSON.parse(data));
-            });
-
-            resp.on("error", err => {
-                if (Debug.statistics) Statistics.statistics.owapi.errors++;
-                reject(err);
-            });
-        }).on("error", err => {
-            if (Debug.statistics) Statistics.statistics.owapi.errors++;
-            reject(err);
-        });
-    });
-}
-
 function checkActive(owapi, playerId) {
-    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
     return new Promise(function(resolve, reject) {
         if (typeof owapi === "object") {
             if (owapi.error === "404" || typeof owapi.eu === "undefined") {
                 database.update(["players", "active = 0, modifyDate = NOW()", "id = " + playerId]).then(function(result, err) {
-                    if (Debug.statistics) Statistics.statistics.playersDeactivated++;
+                    if (debug.statistics) statistics.statistics.playersDeactivated++;
                     resolve(false); // active = false
                 });
             } else {
@@ -362,9 +334,9 @@ database.connect().then(function(response, err) {
 
     updatePlayer().then(function(response, err) {
         database.disconnect().then(function(response, err) {
-            if (Debug.statistics) {
-                Statistics.statistics.javascript.executionTime = (now() / 1000).toFixed(2) + " seconds";
-                Statistics.show();
+            if (debug.statistics) {
+                statistics.statistics.javascript.executionTime = (now() / 1000).toFixed(2) + " seconds";
+                statistics.show();
             }
         });
     });
