@@ -10,7 +10,8 @@
         "private": true
     },
     "dependencies": {
-        "mysql": "*"
+        "mysql": "^2.14.1",
+        "performance-now": "^2.1.0"
     },
     "devDependencies": {},
     "scripts": {
