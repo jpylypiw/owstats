@@ -4,8 +4,8 @@
 // ======
 
 module.exports = {
-    active: true,
     show: function() {
+        this.statistics.javascript.functionCalls++;
         console.log(JSON.stringify(this.statistics, undefined, 4));
     },
     statistics: {
@@ -20,6 +20,10 @@ module.exports = {
             requests: 0,
             responses: 0,
             errors: 0
+        },
+        javascript: {
+            functionCalls: 0,
+            executionTime: ""
         },
         players: 0,
         playersDeactivated: 0
