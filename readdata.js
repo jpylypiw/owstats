@@ -6,25 +6,18 @@
 
 "use strict";
 
-const Mysql = require("mysql");
 const Http = require("http");
-const Database = require("./config/database");
+const database = require("./functions/database");
 const Debug = require("./config/debug");
-const Statistics = require("./functions/statistics.js");
-
-var connection = Mysql.createConnection({
-    host: Database.host,
-    user: Database.user,
-    password: Database.password,
-    database: Database.database
-});
+const Statistics = require("./functions/statistics");
+const now = require("performance-now");
 
 function updatePlayer() {
-    if (Debug.verbose) console.log("updatePlayer()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
-        var playerList = await selectFromTable(["players", "id, battleTag", "active = 1"]);
-        if (Statistics.active) Statistics.statistics.players = playerList.length;
+        var playerList = await database.select(["players", "id, battleTag", "active = 1"]);
+        if (Debug.statistics) Statistics.statistics.players = playerList.length;
         var count = 0;
 
         playerList.forEach(function(player) {
@@ -63,7 +56,7 @@ function updatePlayer() {
 }
 
 function updateHeroesGeneral(owapi, playerId) {
-    if (Debug.verbose) console.log("updateHeroesGeneral()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let finishedCP = false,
@@ -78,7 +71,7 @@ function updateHeroesGeneral(owapi, playerId) {
                 general_stats.player_id = playerId;
                 general_stats.competitive = 1;
                 general_stats.hero = hero;
-                var response = await insertIntoTable(["hero_general_stats", general_stats]);
+                var response = await database.insert(["hero_general_stats", general_stats]);
                 countCP++;
                 if (countCP == heroesCP.length) {
                     finishedCP = true;
@@ -96,7 +89,7 @@ function updateHeroesGeneral(owapi, playerId) {
                 general_stats.player_id = playerId;
                 general_stats.competitive = 0;
                 general_stats.hero = hero;
-                var response = await insertIntoTable(["hero_general_stats", general_stats]);
+                var response = await database.insert(["hero_general_stats", general_stats]);
                 countQP++;
                 if (countQP == heroesQP.length) {
                     finishedQP = true;
@@ -111,34 +104,9 @@ function updateHeroesGeneral(owapi, playerId) {
     });
 }
 
-function insertIntoTable(data) {
-    return new Promise(function(resolve, reject) {
-        let table = data[0],
-            values = data[1];
-
-        connection.query("INSERT INTO `" + table + "` SET ?", values, function(err, result, fields) {
-            if (Statistics.active) Statistics.statistics.database.queries.insert++;
-            if (err) reject(err);
-            resolve(result);
-        });
-    });
-}
-
-function selectFromTable(data) {
-    return new Promise(function(resolve, reject) {
-        let table = data[0],
-            fields = data[1],
-            where = data[2];
-
-        connection.query("SELECT " + fields + " FROM `" + table + "` WHERE " + where, function(err, result, fields) {
-            if (Statistics.active) Statistics.statistics.database.queries.select++;
-            if (err) reject(err);
-            resolve(result);
-        });
-    });
-}
-
 function getPlayedHeroes(allHeroes) {
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+
     return new Promise(function(resolve, reject) {
         let playedHeroes = [],
             i,
@@ -153,7 +121,7 @@ function getPlayedHeroes(allHeroes) {
 }
 
 function updateGameStats(owapi, playerId) {
-    if (Debug.verbose) console.log("updateGameStats()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -167,14 +135,14 @@ function updateGameStats(owapi, playerId) {
             quickplay.competitive = 0;
             quickplay = await correctGameStats(quickplay);
 
-            var result = await insertIntoTable(["game_stats", quickplay]);
+            var result = await database.insert(["game_stats", quickplay]);
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
                 competitive.competitive = 1;
                 competitive = await correctGameStats(competitive);
 
-                result = await insertIntoTable(["game_stats", competitive]);
+                result = await database.insert(["game_stats", competitive]);
                 resolve(result);
             } else {
                 resolve("no competitive played.");
@@ -186,6 +154,8 @@ function updateGameStats(owapi, playerId) {
 }
 
 function correctGameStats(list) {
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+
     return new Promise(async function(resolve, reject) {
         if (list.hasOwnProperty("recon_assist_most_in_game"))
             list = await renameJsonKey([list, "recon_assist_most_in_game", "recon_assists_most_in_game"]);
@@ -269,6 +239,8 @@ function correctGameStats(list) {
 }
 
 function renameJsonKey(array) {
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
+
     return new Promise(resolve => {
         var newKey = array[2];
         var key = array[1];
@@ -280,7 +252,7 @@ function renameJsonKey(array) {
 }
 
 function updateOverallStats(owapi, playerId) {
-    if (Debug.verbose) console.log("updateOverallStats()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -293,12 +265,12 @@ function updateOverallStats(owapi, playerId) {
             quickplay.player_id = playerId;
             quickplay.competitive = 0;
             quickplay.ties = 0;
-            var result = await insertIntoTable(["overall_stats", quickplay]);
+            var result = await database.insert(["overall_stats", quickplay]);
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
                 competitive.competitive = 1;
-                result = await insertIntoTable(["overall_stats", competitive]);
+                result = await database.insert(["overall_stats", competitive]);
                 resolve(result);
             } else {
                 resolve("no competitive played.");
@@ -310,7 +282,7 @@ function updateOverallStats(owapi, playerId) {
 }
 
 function updateRollingAverageStats(owapi, playerId) {
-    if (Debug.verbose) console.log("updateRollingAverageStats()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(async function(resolve, reject) {
         let quickplay = null,
@@ -322,12 +294,12 @@ function updateRollingAverageStats(owapi, playerId) {
         if (quickplay !== null) {
             quickplay.player_id = playerId;
             quickplay.competitive = 0;
-            var result = await insertIntoTable(["rolling_average_stats", quickplay]);
+            var result = await database.insert(["rolling_average_stats", quickplay]);
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
                 competitive.competitive = 1;
-                result = await insertIntoTable(["rolling_average_stats", competitive]);
+                result = await database.insert(["rolling_average_stats", competitive]);
                 resolve(result);
             } else {
                 resolve("no competitive played.");
@@ -339,11 +311,11 @@ function updateRollingAverageStats(owapi, playerId) {
 }
 
 function callApi(battleTag) {
-    if (Debug.verbose) console.log("callApi()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(function(resolve, reject) {
         Http.get("http://134.255.253.124:4444/api/v3/u/" + encodeURI(battleTag) + "/blob", resp => {
-            if (Statistics.active) Statistics.statistics.owapi.requests++;
+            if (Debug.statistics) Statistics.statistics.owapi.requests++;
             let data = "";
 
             resp.on("data", chunk => {
@@ -351,37 +323,30 @@ function callApi(battleTag) {
             });
 
             resp.on("end", () => {
-                if (Statistics.active) Statistics.statistics.owapi.responses++;
+                if (Debug.statistics) Statistics.statistics.owapi.responses++;
                 resolve(JSON.parse(data));
             });
 
             resp.on("error", err => {
-                if (Statistics.active) Statistics.statistics.owapi.errors++;
+                if (Debug.statistics) Statistics.statistics.owapi.errors++;
                 reject(err);
             });
         }).on("error", err => {
-            if (Statistics.active) Statistics.statistics.owapi.errors++;
+            if (Debug.statistics) Statistics.statistics.owapi.errors++;
             reject(err);
         });
     });
 }
 
 function checkActive(owapi, playerId) {
-    if (Debug.verbose) console.log("checkActive()");
+    if (Debug.statistics) Statistics.statistics.javascript.functionCalls++;
 
     return new Promise(function(resolve, reject) {
         if (typeof owapi === "object") {
             if (owapi.error === "404" || typeof owapi.eu === "undefined") {
-                connection.query("UPDATE `players` SET active = 0, modifyDate = NOW() WHERE id = " + playerId, function(err, result) {
-                    if (Statistics.active) {
-                        Statistics.statistics.database.queries.update++;
-                        Statistics.statistics.playersDeactivated++;
-                    }
-                    if (err) {
-                        resolve(false);
-                    } else {
-                        resolve(false); // active = false
-                    }
+                database.update(["players", "active = 0, modifyDate = NOW()", "id = " + playerId]).then(function(result, err) {
+                    if (Debug.statistics) Statistics.statistics.playersDeactivated++;
+                    resolve(false); // active = false
                 });
             } else {
                 resolve(true); // active = true
@@ -392,24 +357,15 @@ function checkActive(owapi, playerId) {
     });
 }
 
-/**
- * Main Method
- */
-connection.connect(function(err) {
-    if (Debug.verbose) console.log("Connecting Database...");
+database.connect().then(function(response, err) {
+    if (err) return;
 
-    if (err) {
-        throw err;
-        return;
-    }
-
-    updatePlayer().then(function() {
-        if (Debug.verbose) console.log("Disconnecting Database...");
-
-        connection.end(function(err) {
-            if (err) throw err;
-
-            if (Statistics.active) Statistics.show();
+    updatePlayer().then(function(response, err) {
+        database.disconnect().then(function(response, err) {
+            if (Debug.statistics) {
+                Statistics.statistics.javascript.executionTime = (now() / 1000).toFixed(2) + " seconds";
+                Statistics.show();
+            }
         });
     });
 });
