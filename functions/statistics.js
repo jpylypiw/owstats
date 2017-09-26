@@ -19,7 +19,9 @@ module.exports = {
         owapi: {
             requests: 0,
             responses: 0,
-            errors: 0
+            errors: 0,
+            longestRequest: 0,
+            shortestRequest: 0
         },
         javascript: {
             functionCalls: 0,
