@@ -4,88 +4,7 @@
 <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
     <!-- Side Overlay-->
 
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <!-- Sidebar Scroll Container -->
-        <div id="sidebar-scroll">
-            <!-- Sidebar Content -->
-            <div class="sidebar-content">
-
-                <!-- Side Header -->
-                <div class="side-header side-content bg-white-op">
-                    <!-- Close Button in Mobile -->
-                    <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
-            <i class="fa fa-times"></i>
-        </button>
-                    <!-- Logo -->
-                    <a class="h5 text-white" href="index.html">
-            <img src="/images/favicons/favicon-16x16.png" style="margin-top: -4px;"> <span class="h4 font-w600 sidebar-mini-hide">Wstats</span>
-        </a>
-                </div>
-                <!-- END Side Header -->
-
-                <!-- Side Content -->
-                <div class="side-content side-content-full">
-                    <ul class="nav-main">
-
-                        <li class="nav-main-heading"><span class="sidebar-mini-hide">Competitive</span></li>
-
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-line-chart"></i><span class="sidebar-mini-hide">General</span></a>
-                        </li>
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-pie-chart"></i><span class="sidebar-mini-hide">Average</span></a>
-                        </li>
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-area-chart"></i><span class="sidebar-mini-hide">Heroes</span></a>
-                        </li>
-
-                        <li class="nav-main-heading"><span class="sidebar-mini-hide">Quickplay</span></li>
-
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-line-chart"></i><span class="sidebar-mini-hide">General</span></a>
-                        </li>
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-pie-chart"></i><span class="sidebar-mini-hide">Average</span></a>
-                        </li>
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-area-chart"></i><span class="sidebar-mini-hide">Heroes</span></a>
-                        </li>
-
-                        <li class="nav-main-heading"><span class="sidebar-mini-hide">OWstats</span></li>
-
-                        <li>
-                            <a href="base_pages_dashboard.html"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Database</span></a>
-                        </li>
-
-                    </ul>
-                </div>
-                <!-- END Side Content -->
-            </div>
-            <!-- Sidebar Content -->
-        </div>
-        <!-- END Sidebar Scroll Container -->
-    </nav>
-    <!-- END Sidebar -->
-
-    <!-- Header -->
-    <header id="header-navbar" class="content-mini content-mini-full">
-        <!-- Header Navigation Left -->
-        <ul class="nav-header pull-left">
-            <li class="hidden-md hidden-lg">
-                <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
-        <i class="fa fa-navicon"></i>
-    </button>
-            </li>
-            <li class="hidden-xs hidden-sm">
-                <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
-        <i class="fa fa-ellipsis-v"></i>
-    </button>
-            </li>
-        </ul>
-        <!-- END Header Navigation Left -->
-    </header>
-    <!-- END Header -->
+    <%- include('../includes/main_sidebar'); -%>
 
     <!-- Main Container -->
     <main id="main-container">
@@ -115,7 +34,134 @@
         <!-- END Page Header -->
 
         <!-- Page Content -->
-        <div class="content content-narrow"></div>
+        <div class="content content-narrow">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- Lines Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Lines</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Lines Chart Container -->
+                            <canvas class="js-chartjs2-lines"></canvas>
+                        </div>
+                    </div>
+                    <!-- END Lines Chart -->
+                </div>
+                <div class="col-lg-6">
+                    <!-- Bars Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Bars</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Bars Chart Container -->
+                            <canvas class="js-chartjs2-bars"></canvas>
+                        </div>
+                    </div>
+                    <!-- END Bars Chart -->
+                </div>
+                <div class="col-lg-6">
+                    <!-- Radar Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Radar</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Radar Chart Container -->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <canvas class="js-chartjs2-radar"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Radar Chart -->
+                </div>
+                <div class="col-lg-6">
+                    <!-- Polar Area Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Polar Area</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Polar Area Chart Container -->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <canvas class="js-chartjs2-polar"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Polar Area Chart -->
+                </div>
+                <div class="col-lg-6">
+                    <!-- Pie Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Pie</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Pie Chart Container -->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <canvas class="js-chartjs2-pie"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Pie Chart -->
+                </div>
+                <div class="col-lg-6">
+                    <!-- Donut Chart -->
+                    <div class="block">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Donut</h3>
+                        </div>
+                        <div class="block-content block-content-full text-center">
+                            <!-- Donut Chart Container -->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <canvas class="js-chartjs2-donut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Donut Chart -->
+                </div>
+            </div>
+        </div>
         <!-- END Page Content -->
     </main>
     <!-- END Main Container -->
