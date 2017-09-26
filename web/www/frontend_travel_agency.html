@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-focus" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+        <title>OneUI - Admin Dashboard Template &amp; UI Framework</title>
+
+        <meta name="description" content="OneUI - Admin Dashboard Template &amp; UI Framework created by pixelcave and published on Themeforest">
+        <meta name="author" content="pixelcave">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="assets/img/favicons/favicon.png">
+
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+
+        <!-- Page JS Plugins CSS -->
+        <link rel="stylesheet" href="assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+
+        <!-- Bootstrap and OneUI CSS framework -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" id="css-main" href="assets/css/oneui.css">
+
+        <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+        <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <!-- Page Container -->
+        <!--
+            Available Classes:
+
+            'enable-cookies'             Remembers active color theme between pages (when set through color theme list)
+
+            'sidebar-l'                  Left Sidebar and right Side Overlay
+            'sidebar-r'                  Right Sidebar and left Side Overlay
+            'sidebar-mini'               Mini hoverable Sidebar (> 991px)
+            'sidebar-o'                  Visible Sidebar by default (> 991px)
+            'sidebar-o-xs'               Visible Sidebar by default (< 992px)
+
+            'side-overlay-hover'         Hoverable Side Overlay (> 991px)
+            'side-overlay-o'             Visible Side Overlay by default (> 991px)
+
+            'side-scroll'                Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (> 991px)
+
+            'header-navbar-fixed'        Enables fixed header
+            'header-navbar-transparent'  Enables a transparent header (if also fixed, it will get a solid dark background color on scrolling)
+        -->
+        <div id="page-container" class="sidebar-l sidebar-mini sidebar-o side-scroll header-navbar-fixed header-navbar-transparent">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <!-- Sidebar Scroll Container -->
+                <div id="sidebar-scroll">
+                    <!-- Sidebar Content -->
+                    <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
+                    <div class="sidebar-content">
+                        <!-- Side Header -->
+                        <div class="side-header side-content">
+                            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                            <button class="btn btn-link text-gray pull-right visible-xs visible-sm" type="button" data-toggle="layout" data-action="sidebar_close">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <!-- Themes functionality initialized in App() -> uiHandleTheme() -->
+                            <div class="btn-group pull-right visible-md visible-lg">
+                                <button class="btn btn-link text-gray dropdown-toggle" data-toggle="dropdown" type="button">
+                                    <i class="si si-drop"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right font-s13 sidebar-mini-hide">
+                                    <li>
+                                        <a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-default pull-right"></i> <span class="font-w600">Default</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a class="h5 text-white" href="index.html">
+                                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">ne</span>
+                            </a>
+                        </div>
+                        <!-- END Side Header -->
+
+                        <!-- Side Content -->
+                        <div class="side-content side-content-full">
+                            <ul class="nav-main">
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-home"></i><span class="sidebar-mini-hide">Home</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="frontend_home.html">Default Navigation</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_home_header_nav.html">Header Navigation</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="frontend_features.html"><i class="si si-energy"></i><span class="sidebar-mini-hide">Features</span></a>
+                                </li>
+                                <li>
+                                    <a href="frontend_pricing.html"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Pricing</span></a>
+                                </li>
+                                <li>
+                                    <a href="frontend_contact.html"><i class="si si-envelope-open"></i><span class="sidebar-mini-hide">Contact</span></a>
+                                </li>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-book-open"></i><span class="sidebar-mini-hide">Pages</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="frontend_team.html">Team</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_support.html">Support</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_search.html">Search</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_about.html">About</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_login.html">Log In</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_signup.html">Sign Up</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-main-heading"><span class="sidebar-mini-hide">Pages Packs</span></li>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-pencil"></i><span class="sidebar-mini-hide">Blog</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="frontend_blog_classic.html">Classic</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_blog_list.html">List</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_blog_grid.html">Grid</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_blog_story.html">Story</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_blog_story_cover.html">Story Cover</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-graduation"></i><span class="sidebar-mini-hide">e-Learning</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="frontend_elearning_courses.html">Courses</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_elearning_course.html">Course</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_elearning_lesson.html">Lesson</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-bag"></i><span class="sidebar-mini-hide">e-Commerce</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="frontend_ecom_home.html">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_ecom_search.html">Search Results</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_ecom_products.html">Products List</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_ecom_product.html">Product Page</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_ecom_checkout.html">Checkout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="open">
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-plane"></i><span class="sidebar-mini-hide">Travel</span></a>
+                                    <ul>
+                                        <li>
+                                            <a class="active" href="frontend_travel_agency.html">Agency</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_travel_package.html">Package</a>
+                                        </li>
+                                        <li>
+                                            <a href="frontend_travel_guide.html">Guide</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Side Content -->
+                    </div>
+                    <!-- Sidebar Content -->
+                </div>
+                <!-- END Sidebar Scroll Container -->
+            </nav>
+            <!-- END Sidebar -->
+
+            <!-- Header -->
+            <header id="header-navbar" class="content-mini content-mini-full hidden-md hidden-lg">
+                <div class="content-boxed">
+                    <!-- Header Navigation Right -->
+                    <ul class="nav-header pull-right">
+                        <li>
+                            <!-- Themes functionality initialized in App() -> uiHandleTheme() -->
+                            <div class="btn-group">
+                                <button class="btn btn-link text-white dropdown-toggle" data-toggle="dropdown" type="button">
+                                    <i class="si si-drop"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right sidebar-mini-hide font-s13">
+                                    <li>
+                                        <a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-default pull-right"></i> <span class="font-w600">Default</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="theme" data-theme="assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
+                                            <i class="fa fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                            <button class="btn btn-link text-white pull-right" type="button" data-toggle="layout" data-action="sidebar_open">
+                                <i class="fa fa-navicon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <!-- END Header Navigation Right -->
+
+                    <!-- Header Navigation Left -->
+                    <ul class="nav-header pull-left">
+                        <li class="header-content">
+                            <a class="h5" href="index.html">
+                                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 text-white">ne</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- END Header Navigation Left -->
+                </div>
+            </header>
+            <!-- END Header -->
+
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Hero Content -->
+                <div class="bg-image" style="background-image: url('assets/img/photos/photo28@2x.jpg');">
+                    <!-- Search Content -->
+                    <section class="content content-full content-boxed overflow-hidden">
+                        <!-- Bootstrap Datepicker (.input-daterange class is initialized in App() -> uiHelperDatepicker()) -->
+                        <!-- For more info and examples you can check out https://github.com/eternicode/bootstrap-datepicker -->
+                        <div class="push-100-t push-100">
+                            <h1 class="font-s48 font-w700 text-uppercase text-white push-10 visibility-hidden text-center" data-toggle="appear" data-class="animated fadeInDown">Travel The World</h1>
+                            <h2 class="h3 font-w400 text-white-op push-50 visibility-hidden text-center" data-toggle="appear" data-timeout="750">Let us help you explore the world, one step at a time.</h2>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                                    <div class="block">
+                                        <ul class="nav nav-tabs nav-justified" data-toggle="tabs">
+                                            <li class="active">
+                                                <a href="#travel-flights"><i class="fa fa-plane text-primary push-5-r"></i> <span class="text-primary-dark">Flights</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#travel-hotels"><i class="fa fa-hotel text-success push-5-r"></i> <span class="text-primary-dark">Packages</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#travel-packages"><i class="fa fa-gift text-danger push-5-r"></i> <span class="text-primary-dark">Packages</span></a>
+                                            </li>
+                                        </ul>
+                                        <div class="block-content tab-content mheight-200">
+                                            <div class="tab-pane active" id="travel-flights">
+                                                <form class="form-horizontal" action="frontend_travel_home.html" method="post" onsubmit="return false;">
+                                                    <div class="form-group items-push push-10">
+                                                        <div class="col-sm-6">
+                                                            <label for="travel-flights-from">FROM</label>
+                                                            <input class="form-control" type="text" id="travel-flights-from" name="travel-flights-from" placeholder="Eg. Paris, FR">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label for="travel-flights-to">TO</label>
+                                                            <input class="form-control" type="text" id="travel-flights-to" name="travel-flights-to" placeholder="Eg. New York, US">
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <label>WHEN?</label>
+                                                            <div class="input-daterange input-group" data-date-format="mm/dd/yyyy">
+                                                                <input class="form-control" type="text" id="travel-flights-departure" name="travel-flights-departure" placeholder="Departure">
+                                                                <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                                                                <input class="form-control" type="text" id="travel-flights-return" name="travel-flights-return" placeholder="Return">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label for="travel-flights-adults">ADULTS</label>
+                                                            <input class="form-control" type="number" min="1" max="10" id="travel-flights-adults" name="travel-flights-adults" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-xs-12">
+                                                            <button class="btn btn-noborder btn-rounded btn-primary text-uppercase" type="submit"><i class="fa fa-search push-5-r"></i> Search Flights</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane" id="travel-hotels">
+                                                <form class="form-horizontal" action="frontend_travel_home.html" method="post" onsubmit="return false;">
+                                                    <div class="form-group items-push push-10">
+                                                        <div class="col-xs-12">
+                                                            <label for="travel-hotels-where">WHERE</label>
+                                                            <input class="form-control" type="text" id="travel-hotels-where" name="travel-hotels-where" placeholder="Eg. Paris, FR">
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <label>WHEN?</label>
+                                                            <div class="input-daterange input-group" data-date-format="mm/dd/yyyy">
+                                                                <input class="form-control" type="text" id="travel-hotels-arrival" name="travel-hotels-arrival" placeholder="Arrival">
+                                                                <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                                                                <input class="form-control" type="text" id="travel-hotels-departure" name="travel-hotels-departure" placeholder="Departure">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label for="travel-hotels-adults">ADULTS</label>
+                                                            <input class="form-control" type="number" min="1" max="10" id="travel-hotels-adults" name="travel-hotels-adults" value="2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-xs-12">
+                                                            <button class="btn btn-noborder btn-rounded btn-success text-uppercase" type="submit"><i class="fa fa-search push-5-r"></i> Search Hotels</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane" id="travel-packages">
+                                                <form class="form-horizontal" action="frontend_travel_home.html" method="post" onsubmit="return false;">
+                                                    <div class="form-group items-push push-10">
+                                                        <div class="col-xs-12">
+                                                            <label for="travel-packages-destination">DESTINATION</label>
+                                                            <input class="form-control" type="text" id="travel-packages-destination" name="travel-packages-destination" placeholder="Eg. London, GB">
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <label for="travel-packages-month">MONTH</label>
+                                                            <select class="form-control" id="travel-packages-month" name="travel-packages-month">
+                                                                <option value="0">When?</option>
+                                                                <option value="1">January</option>
+                                                                <option value="2">February</option>
+                                                                <option value="3">March</option>
+                                                                <option value="4">April</option>
+                                                                <option value="5">May</option>
+                                                                <option value="6">June</option>
+                                                                <option value="7">July</option>
+                                                                <option value="8">August</option>
+                                                                <option value="9">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <label for="travel-packages-budget">BUDGET</label>
+                                                            <select class="form-control" id="travel-packages-budget" name="travel-packages-budget">
+                                                                <option value="0">How much?</option>
+                                                                <option value="1">$99 to $499</option>
+                                                                <option value="2">$500 to $999</option>
+                                                                <option value="3">$1000 to $1999</option>
+                                                                <option value="4">$2000 to $2999</option>
+                                                                <option value="5">$3000 to $4999</option>
+                                                                <option value="6">$5000 to $9999</option>
+                                                                <option value="6">&gt; $9999</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label for="travel-packages-adults">ADULTS</label>
+                                                            <input class="form-control" type="number" min="1" max="10" id="travel-packages-adults" name="travel-packages-adults" value="2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-xs-12">
+                                                            <button class="btn btn-noborder btn-rounded btn-danger text-uppercase" type="submit"><i class="fa fa-search push-5-r"></i> Search Packages</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- END Search Content -->
+
+                    <!-- Features -->
+                    <div class="bg-black-op">
+                        <section class="content content-boxed">
+                            <div class="push-20-t push-50">
+                                <div class="row items-push text-center">
+                                    <div class="col-xs-6 col-md-3 visibility-hidden" data-toggle="appear" data-offset="-100" data-class="animated flipInY" data-timeout="200">
+                                        <div class="item item-2x item-circle push-10">
+                                            <i class="si si-plane text-white"></i>
+                                        </div>
+                                        <div class="font-w600 text-white-op text-uppercase">Cheap Flights</div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3 visibility-hidden" data-toggle="appear" data-offset="-100" data-class="animated flipInY" data-timeout="400">
+                                        <div class="item item-2x item-circle push-10">
+                                            <i class="si si-heart text-white"></i>
+                                        </div>
+                                        <div class="font-w600 text-white-op text-uppercase">Best Deals</div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3 visibility-hidden" data-toggle="appear" data-offset="-100" data-class="animated flipInY" data-timeout="600">
+                                        <div class="item item-2x item-circle push-10">
+                                            <i class="si si-clock text-white"></i>
+                                        </div>
+                                        <div class="font-w600 text-white-op text-uppercase">Save Time</div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3 visibility-hidden" data-toggle="appear" data-offset="-100" data-class="animated flipInY" data-timeout="800">
+                                        <div class="item item-2x item-circle push-10">
+                                            <i class="si si-support text-white"></i>
+                                        </div>
+                                        <div class="font-w600 text-white-op text-uppercase">24/7 Support</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- END Features -->
+                </div>
+                <!-- END Hero Content -->
+
+                <!-- Packages -->
+                <div class="bg-white">
+                    <section class="content content-full content-boxed">
+                        <!-- Section Content -->
+                        <div class="text-center push-50-t push-50">
+                            <div>Where would you like to go today?</div>
+                            <h2 class="h1 text-black">The best packages this week.</h2>
+                        </div>
+                        <div class="row push-50">
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo29.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">New York</h2>
+                                        <p class="text-white-op">7 Nights | From $1299</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo30.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Norway</h2>
+                                        <p class="text-white-op">4 Nights | From $999</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo31.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Hawaii</h2>
+                                        <p class="text-white-op">9 Nights | From $2399</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo32.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Egypt</h2>
+                                        <p class="text-white-op">3 Nights | From $599</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo33.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">San Francisco</h2>
+                                        <p class="text-white-op">6 Nights | From $1699</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo34.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Japan</h2>
+                                        <p class="text-white-op">8 Nights | From $1999</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo35.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Paris</h2>
+                                        <p class="text-white-op">7 Nights | From $1399</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo21.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Greece</h2>
+                                        <p class="text-white-op">7 Nights | From $899</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <a class="block block-themed bg-image" style="background-image: url('assets/img/photos/photo36.jpg');" href="frontend_travel_package.html">
+                                    <div class="block-header text-right push-150">
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                        <span class="text-white-op"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="block-content bg-black-op">
+                                        <h2 class="font-w700 h3 push-10 text-white text-uppercase">Space</h2>
+                                        <p class="text-white-op">3 Days | From $25499</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
+                </div>
+                <!-- END Packages -->
+
+                <!-- Get in touch -->
+                <div class="bg-gray-lighter">
+                    <section class="content content-full content-boxed">
+                        <!-- Section Content -->
+                        <div class="push-20-t push-20 text-center">
+                            <h3 class="h4 push-20 visibility-hidden" data-toggle="appear">Can’t find a package for you? Don’t worry!</h3>
+                            <a class="btn btn-rounded btn-noborder btn-lg btn-success visibility-hidden" data-toggle="appear" data-class="animated bounceIn" href="frontend_contact.html"><i class="fa fa-envelope-o push-5-r"></i> Get in touch</a>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
+                </div>
+                <!-- END Get in touch -->
+            </main>
+            <!-- END Main Container -->
+
+            <!-- Footer -->
+            <footer id="page-footer" class="bg-white">
+                <div class="content content-boxed">
+                    <!-- Footer Navigation -->
+                    <div class="row push-30-t items-push-2x">
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Company</h3>
+                            <ul class="list list-simple-mini font-s13">
+                                <li>
+                                    <a class="font-w600" href="frontend_home.html">Home</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_features.html">Features</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_pricing.html">Pricing</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_about.html">About Us</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_contact.html">Contact Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Support</h3>
+                            <ul class="list list-simple-mini font-s13">
+                                <li>
+                                    <a class="font-w600" href="frontend_login.html">Log In</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_signup.html">Sign Up</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="frontend_support.html">Support Center</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="javascript:void(0)">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="javascript:void(0)">Terms &amp; Conditions</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Get In Touch</h3>
+                            <div class="font-s13 push">
+                                <strong>Company, Inc.</strong><br>
+                                980 Folsom Ave, Suite 1230<br>
+                                San Francisco, CA 94107<br>
+                                <abbr title="Phone">P:</abbr> (123) 456-7890
+                            </div>
+                            <div class="font-s13">
+                                <i class="si si-envelope-open"></i> company@example.com
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Footer Navigation -->
+
+                    <!-- Copyright Info -->
+                    <div class="font-s12 push-20 clearfix">
+                        <hr class="remove-margin-t">
+                        <div class="pull-right">
+                            Crafted with <i class="fa fa-heart text-city"></i> by <a class="font-w600" href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
+                        </div>
+                        <div class="pull-left">
+                            <a class="font-w600" href="http://goo.gl/6LF10W" target="_blank">OneUI 3.2</a> &copy; <span class="js-year-copy"></span>
+                        </div>
+                    </div>
+                    <!-- END Copyright Info -->
+                </div>
+            </footer>
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->
+
+        <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+        <script src="assets/js/core/jquery.min.js"></script>
+        <script src="assets/js/core/bootstrap.min.js"></script>
+        <script src="assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="assets/js/core/jquery.appear.min.js"></script>
+        <script src="assets/js/core/jquery.countTo.min.js"></script>
+        <script src="assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="assets/js/core/js.cookie.min.js"></script>
+        <script src="assets/js/app.js"></script>
+
+        <!-- Page JS Plugins -->
+        <script src="assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+        <!-- Page JS Code -->
+        <script>
+            jQuery(function () {
+                // Init page helpers (Appear + BS Datepicker plugins)
+                App.initHelpers(['appear', 'datepicker']);
+            });
+        </script>
+    </body>
+</html>
