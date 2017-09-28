@@ -7,7 +7,6 @@ var bodyParser = require("body-parser");
 var lessMiddleware = require("less-middleware");
 
 var comp_general = require("./routes/comp_general");
-// var users = require("./routes/users");
 
 var app = express();
 
@@ -20,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), { maxage: '14d' }));
 
 app.use("/", comp_general);
 app.use("/competitive-general", comp_general);
@@ -30,7 +29,6 @@ app.use("/quickplay-general", comp_general);
 app.use("/quickplay-average", comp_general);
 app.use("/quickplay-heroes", comp_general);
 app.use("/owstats-database", comp_general);
-// app.use("/users", users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
