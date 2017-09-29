@@ -15,7 +15,6 @@ module.exports = function(grunt) {
                         'public/javascripts/core/jquery.appear.min.js',
                         'public/javascripts/core/jquery.countTo.min.js',
                         'public/javascripts/core/jquery.placeholder.min.js',
-                        'node_modules/gasparesganga-jquery-loading-overlay/src/loadingoverlay.js',
                         'public/javascripts/core/js.cookie.min.js',
                         'public/javascripts/core/app.js'
                     ],

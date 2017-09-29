@@ -4,7 +4,13 @@ var comp_general = function() {
         $('iframe').css('height', $(window).height() + 'px');
 
         $(window).load(function() {
-            $('#preloader').fadeOut('slow', function() { $(this).remove(); });
+            $('#preloader').fadeOut('slow', function() {
+                $(this).remove();
+            });
+
+            $("iframe").each(function(pos, elem) {
+                $(elem).attr('src', $(elem).attr('x-src'))
+            });
         });
     };
 
