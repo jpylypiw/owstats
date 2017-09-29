@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var lessMiddleware = require("less-middleware");
 
 var comp_general = require("./routes/comp_general");
+var owstats_database = require("./routes/owstats_database");
 
 var app = express();
 
@@ -28,7 +29,7 @@ app.use("/competitive-heroes", comp_general);
 app.use("/quickplay-general", comp_general);
 app.use("/quickplay-average", comp_general);
 app.use("/quickplay-heroes", comp_general);
-app.use("/owstats-database", comp_general);
+app.use("/owstats-database", owstats_database);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
