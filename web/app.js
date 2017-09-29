@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "public"), { maxage: '14d' }));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", comp_general);
 app.use("/competitive-general", comp_general);
