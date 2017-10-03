@@ -1,6 +1,26 @@
 <script src="/javascripts/core.min.js"></script>
 <script src="/javascripts/owstats.min.js"></script>
 
+<script type="text/javascript">
+    $('img.hero').click(function () {
+        var hero = $(this)[0].id;
+
+        var table = $(".hero-frame").contents().find("table");
+
+        console.log(table);
+
+        // $('tr').show();
+
+        // $('tr td.price').each(function () {
+        //     if ($(this).text().substring(1) < price) {
+        //         $(this).parent().hide();
+        //     }
+        // });
+
+    });
+
+</script>
+
 </body>
 
 </html>
