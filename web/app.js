@@ -25,11 +25,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", comp_general);
 app.use("/competitive-general", comp_general);
-app.use("/competitive-average", comp_general);
+// app.use("/competitive-average", comp_general);
 app.use("/competitive-heroes", comp_heroes);
-app.use("/quickplay-general", comp_general);
-app.use("/quickplay-average", comp_general);
-app.use("/quickplay-heroes", comp_general);
+// app.use("/quickplay-general", comp_general);
+// app.use("/quickplay-average", comp_general);
+// app.use("/quickplay-heroes", comp_general);
 app.use("/owstats-database", owstats_database);
 
 // catch 404 and forward to error handler
