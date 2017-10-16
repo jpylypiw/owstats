@@ -13,7 +13,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~3.1.0",
     "ejs": "~2.5.6",
-    "express": "~4.15.2",
+    "express": "~4.16.2",
     "gasparesganga-jquery-loading-overlay": "^1.5.4",
     "grunt": "~1.0.1",
     "grunt-contrib-clean": "^1.1.0",

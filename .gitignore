@@ -1,6 +1,9 @@
 # Configuration
 config/*.js
 
+# Visual Studio Code
+.vscode
+
 # Logs
 logs
 *.log
