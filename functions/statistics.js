@@ -6,6 +6,8 @@
 module.exports = {
     show: function() {
         this.statistics.javascript.functionCalls++;
+        this.statistics.owapi.shortestRequest += " seconds";
+        this.statistics.owapi.longestRequest += " seconds";
         console.log(JSON.stringify(this.statistics, undefined, 4));
     },
     statistics: {
