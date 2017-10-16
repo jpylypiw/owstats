@@ -11,6 +11,7 @@ const owapi = require("./functions/owapi");
 const debug = require("./config/debug");
 const statistics = require("./functions/statistics");
 const now = require("performance-now");
+const currentDate = new Date();
 
 function updatePlayer() {
     if (debug.statistics) statistics.statistics.javascript.functionCalls++;
@@ -29,10 +30,12 @@ function updatePlayer() {
                                 updateRollingAverageStats(owapi, player.id).then(function() {
                                     updateGameStats(owapi, player.id).then(function() {
                                         updateHeroesGeneral(owapi, player.id).then(function() {
-                                            count++;
-                                            if (count == playerList.length) {
-                                                resolve(true);
-                                            }
+                                            updatePlayers(player.id).then(function() {
+                                                count++;
+                                                if (count == playerList.length) {
+                                                    resolve(true);
+                                                }
+                                            });
                                         });
                                     });
                                 });
@@ -55,6 +58,14 @@ function updatePlayer() {
     });
 }
 
+function getCurrentDate() {
+    var tzoffset = new Date().getTimezoneOffset() * 60000;
+    return new Date(currentDate - tzoffset)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+}
+
 function updateHeroesGeneral(owapi, playerId) {
     if (debug.statistics) statistics.statistics.javascript.functionCalls++;
 
@@ -69,6 +80,7 @@ function updateHeroesGeneral(owapi, playerId) {
             heroesCP.forEach(async function(hero) {
                 var general_stats = await correctGameStats(owapi.eu.heroes.stats.competitive[hero].general_stats);
                 general_stats.player_id = playerId;
+                general_stats.createDate = getCurrentDate();
                 general_stats.competitive = 1;
                 general_stats.hero = hero;
                 var response = await database.insert(["hero_general_stats", general_stats]);
@@ -87,6 +99,7 @@ function updateHeroesGeneral(owapi, playerId) {
             heroesQP.forEach(async function(hero) {
                 var general_stats = await correctGameStats(owapi.eu.heroes.stats.quickplay[hero].general_stats);
                 general_stats.player_id = playerId;
+                general_stats.createDate = getCurrentDate();
                 general_stats.competitive = 0;
                 general_stats.hero = hero;
                 var response = await database.insert(["hero_general_stats", general_stats]);
@@ -132,6 +145,7 @@ function updateGameStats(owapi, playerId) {
 
         if (quickplay !== null) {
             quickplay.player_id = playerId;
+            quickplay.createDate = getCurrentDate();
             quickplay.competitive = 0;
             quickplay = await correctGameStats(quickplay);
 
@@ -139,6 +153,7 @@ function updateGameStats(owapi, playerId) {
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
+                competitive.createDate = getCurrentDate();
                 competitive.competitive = 1;
                 competitive = await correctGameStats(competitive);
 
@@ -150,6 +165,20 @@ function updateGameStats(owapi, playerId) {
         } else {
             resolve("no quickplay played. skipping competitive!");
         }
+    });
+}
+
+function updatePlayers(playerId) {
+    if (debug.statistics) statistics.statistics.javascript.functionCalls++;
+
+    return new Promise(async function(resolve, reject) {
+        database.update(["players", "modifyDate = '" + getCurrentDate() + "'", "id = " + playerId]).then(function(result, err) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(result);
+        });
     });
 }
 
@@ -263,12 +292,14 @@ function updateOverallStats(owapi, playerId) {
 
         if (quickplay !== null) {
             quickplay.player_id = playerId;
+            quickplay.createDate = getCurrentDate();
             quickplay.competitive = 0;
             quickplay.ties = 0;
             var result = await database.insert(["overall_stats", quickplay]);
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
+                competitive.createDate = getCurrentDate();
                 competitive.competitive = 1;
                 result = await database.insert(["overall_stats", competitive]);
                 resolve(result);
@@ -293,11 +324,13 @@ function updateRollingAverageStats(owapi, playerId) {
 
         if (quickplay !== null) {
             quickplay.player_id = playerId;
+            quickplay.createDate = getCurrentDate();
             quickplay.competitive = 0;
             var result = await database.insert(["rolling_average_stats", quickplay]);
 
             if (competitive !== null) {
                 competitive.player_id = playerId;
+                competitive.createDate = getCurrentDate();
                 competitive.competitive = 1;
                 result = await database.insert(["rolling_average_stats", competitive]);
                 resolve(result);
@@ -316,7 +349,12 @@ function checkActive(owapi, playerId) {
     return new Promise(function(resolve, reject) {
         if (typeof owapi === "object") {
             if (owapi.error === "404" || typeof owapi.eu === "undefined") {
-                database.update(["players", "active = 0, modifyDate = NOW()", "id = " + playerId]).then(function(result, err) {
+                if (debug.verbose) {
+                    console.log("Deactivating player " + playerId);
+                    console.log(JSON.stringify(owapi, undefined, 4));
+                }
+
+                database.update(["players", "active = 0, modifyDate = '" + getCurrentDate() + "'", "id = " + playerId]).then(function(result, err) {
                     if (debug.statistics) statistics.statistics.playersDeactivated++;
                     resolve(false); // active = false
                 });

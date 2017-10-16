@@ -29,7 +29,7 @@ module.exports = {
                 resp.on("end", () => {
                     if (debug.statistics) {
                         statistics.statistics.owapi.responses++;
-                        var duration = Math.round((now() - beginTime) / 1000);
+                        var duration = parseFloat((now() - beginTime) / 1000).toFixed(2);
                         if (statistics.statistics.owapi.longestRequest < duration) statistics.statistics.owapi.longestRequest = duration;
                         if (statistics.statistics.owapi.shortestRequest > duration || statistics.statistics.owapi.shortestRequest == 0)
                             statistics.statistics.owapi.shortestRequest = duration;
@@ -39,8 +39,9 @@ module.exports = {
 
                 resp.on("error", err => {
                     if (debug.statistics) statistics.statistics.owapi.errors++;
-                    throw err;
-                    reject(err);
+                    this.blob(battleTag).then(function(owapi) {
+                        resolve(owapi);
+                    });
                 });
             });
 
@@ -53,8 +54,9 @@ module.exports = {
 
             req.on("error", function(err) {
                 if (debug.statistics) statistics.statistics.owapi.errors++;
-                throw err;
-                reject(err);
+                this.blob(battleTag).then(function(owapi) {
+                    resolve(owapi);
+                });
             });
         });
     }
