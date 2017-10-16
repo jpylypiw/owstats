@@ -82,12 +82,12 @@ exit 0
 
 1. execute the `setup.sql` file in your MySQL or MariaDB database.
 
-1. Edit the `readdata.js` file with your database settings-
+1. Copy the .example-files in config folder to .js files and edit the default values to your values.
 
 1. Execute `node readdata.js` and watch for possible errors.
 
-1. Add the following line to your crontab with the command `crontab -e` and edit the execute frequency.
+1. Add the following line to your crontab using the command `crontab -e` and edit the execute frequency. In our example we read the data every hour.
 
 ``` bash
-*/30 * * * * /usr/bin/node /opt/owstats/readdata.js
+0 * * * * /usr/bin/node /opt/owstats/readdata.js
 ```

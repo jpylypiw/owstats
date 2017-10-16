@@ -39,7 +39,7 @@ module.exports = {
 
                 resp.on("error", err => {
                     if (debug.statistics) statistics.statistics.owapi.errors++;
-                    this.blob(battleTag).then(function(owapi) {
+                    arguments.callee(battleTag).then(function(owapi) {
                         resolve(owapi);
                     });
                 });
@@ -54,7 +54,7 @@ module.exports = {
 
             req.on("error", function(err) {
                 if (debug.statistics) statistics.statistics.owapi.errors++;
-                this.blob(battleTag).then(function(owapi) {
+                arguments.callee(battleTag).then(function(owapi) {
                     resolve(owapi);
                 });
             });

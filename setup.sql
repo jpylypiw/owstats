@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS `game_stats` (
   `hero_damage_done_most_in_game` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `createDate` (`createDate`),
-  KEY `FK_game_stats_players` (`player_id`),
+  KEY `competitive` (`competitive`),
+  KEY `player_id, competitive, createDate` (`player_id`,`competitive`,`createDate`),
   CONSTRAINT `FK_game_stats_players` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -78,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `hero_general_stats` (
   `player_id` int(11) NOT NULL,
   `competitive` bit(1) NOT NULL,
   `hero` varchar(100) NOT NULL,
+  `time_played` double NOT NULL DEFAULT '0',
   `eliminations` double NOT NULL DEFAULT '0',
   `deaths` double NOT NULL DEFAULT '0',
   `final_blows` double NOT NULL DEFAULT '0',
@@ -92,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `hero_general_stats` (
   `weapon_accuracy` double NOT NULL DEFAULT '0',
   `medals` double NOT NULL DEFAULT '0',
   `all_damage_done` double NOT NULL DEFAULT '0',
-  `time_played` double NOT NULL DEFAULT '0',
   `objective_time` double NOT NULL DEFAULT '0',
   `games_lost` double NOT NULL DEFAULT '0',
   `critical_hits` double NOT NULL DEFAULT '0',
@@ -163,8 +164,10 @@ CREATE TABLE IF NOT EXISTS `hero_general_stats` (
   `blaster_kills_most_in_game` double NOT NULL DEFAULT '0',
   `blaster_kills` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `createDate` (`createDate`),
-  KEY `FK_hero_general_stats_players` (`player_id`),
+  KEY `player_id, competitive` (`player_id`,`competitive`),
+  KEY `hero` (`hero`),
+  KEY `competitive` (`competitive`),
+  KEY `Schlüssel 8` (`player_id`,`competitive`,`createDate`),
   CONSTRAINT `FK_hero_general_stats_players` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -194,6 +197,8 @@ CREATE TABLE IF NOT EXISTS `overall_stats` (
   KEY `tier` (`tier`),
   KEY `FK__players` (`player_id`),
   KEY `createDate` (`createDate`),
+  KEY `competitive` (`competitive`),
+  KEY `player_id, competitive, createDate` (`player_id`,`competitive`,`createDate`),
   CONSTRAINT `overall_stats_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -207,10 +212,13 @@ CREATE TABLE IF NOT EXISTS `players` (
   `createDate` datetime DEFAULT CURRENT_TIMESTAMP,
   `modifyDate` datetime DEFAULT CURRENT_TIMESTAMP,
   `battleTag` varchar(25) DEFAULT NULL,
+  `name` varchar(25) DEFAULT NULL,
   `active` bit(1) DEFAULT b'1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `battleTag` (`battleTag`),
-  KEY `active` (`active`)
+  KEY `active` (`active`),
+  KEY `name` (`name`),
+  KEY `modifyDate` (`modifyDate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Daten Export vom Benutzer nicht ausgewählt
