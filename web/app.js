@@ -7,7 +7,11 @@ var bodyParser = require("body-parser");
 var lessMiddleware = require("less-middleware");
 
 var comp_general = require("./routes/comp_general");
+var comp_week = require("./routes/comp_week");
+var comp_high = require("./routes/comp_high");
+var comp_average = require("./routes/comp_average");
 var comp_heroes = require("./routes/comp_heroes");
+var comp_graphs = require("./routes/comp_graphs");
 var owstats_database = require("./routes/owstats_database");
 
 var app = express();
@@ -25,8 +29,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", comp_general);
 app.use("/competitive-general", comp_general);
-// app.use("/competitive-average", comp_general);
+app.use("/competitive-week", comp_week);
+app.use("/competitive-high", comp_high);
+app.use("/competitive-average", comp_average);
 app.use("/competitive-heroes", comp_heroes);
+app.use("/competitive-graphs", comp_graphs);
 // app.use("/quickplay-general", comp_general);
 // app.use("/quickplay-average", comp_general);
 // app.use("/quickplay-heroes", comp_general);

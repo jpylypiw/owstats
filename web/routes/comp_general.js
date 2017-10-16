@@ -6,12 +6,12 @@ router.get("/", function(req, res, next) {
     res.render("pages/comp_general", {
         breadcrumb: {
             title: "General",
-            description: "There are general statistics about Competitive Overwatch Games.",
-            area: "Competitive",
+            description: "The general overall stats of the current season.",
+            area: "Competitive"
         },
         footer: {
             now: now,
-            startTime: now(),
+            startTime: now()
         },
         url: req.originalUrl
     });

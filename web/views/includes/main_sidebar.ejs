@@ -9,32 +9,59 @@
                 </button>
                 <!-- Logo -->
                 <a class="h5 text-white" href="/">
-                    <img src="/images/favicons/favicon-32x32.png" style="margin-top: -4px;"> <span class="h4 font-w600 sidebar-mini-hide">Wstats</span>
+                    <img src="/images/favicons/favicon-32x32.png" style="margin-top: -4px;">
+                    <span class="h4 font-w600 sidebar-mini-hide">Wstats</span>
                 </a>
             </div>
 
             <div class="side-content side-content-full">
                 <ul class="nav-main">
-                    <li class="nav-main-heading"><span class="sidebar-mini-hide">Competitive</span></li>
+                    <li class="nav-main-heading">
+                        <span class="sidebar-mini-hide">Competitive</span>
+                    </li>
                     <li>
-                        <a <% if (url.includes( "competitive-general") || url=="/" ) { %> class="active" <%}%> href="/competitive-general">
-                            <i class="fa fa-line-chart"></i>
-                            <span class="sidebar-mini-hide">General</span>
+                        <a <% if (url.includes( "competitive-general") || url=="/" ) { %> class="active"
+                            <%}%> href="/competitive-general">
+                                <i class="fa fa-tachometer"></i>
+                                <span class="sidebar-mini-hide">General</span>
                         </a>
                     </li>
                     <li>
-                        <a <% if (url.includes( "competitive-average")) { %> class="active" <%}%> href="/competitive-average">
-                            <i class="fa fa-pie-chart"></i>
-                            <span class="sidebar-mini-hide">Average</span>
+                        <a <% if (url.includes( "competitive-week")) { %> class="active"
+                            <%}%> href="/competitive-week">
+                                <i class="fa fa-calendar"></i>
+                                <span class="sidebar-mini-hide">Weekly</span>
                         </a>
                     </li>
                     <li>
-                        <a <% if (url.includes( "competitive-heroes")) { %> class="active" <%}%> href="/competitive-heroes">
-                            <i class="fa fa-area-chart"></i>
-                            <span class="sidebar-mini-hide">Heroes</span>
+                        <a <% if (url.includes( "competitive-high")) { %> class="active"
+                            <%}%> href="/competitive-high">
+                                <i class="fa fa-arrow-up"></i>
+                                <span class="sidebar-mini-hide">High</span>
                         </a>
                     </li>
-                    <li class="nav-main-heading"><span class="sidebar-mini-hide">Quickplay</span></li>
+                    <li>
+                        <a <% if (url.includes( "competitive-average")) { %> class="active"
+                            <%}%> href="/competitive-average">
+                                <i class="fa fa-percent"></i>
+                                <span class="sidebar-mini-hide">Average</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a <% if (url.includes( "competitive-heroes")) { %> class="active"
+                            <%}%> href="/competitive-heroes">
+                                <i class="fa fa-area-chart"></i>
+                                <span class="sidebar-mini-hide">Heroes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a <% if (url.includes( "competitive-graphs")) { %> class="active"
+                            <%}%> href="/competitive-graphs">
+                                <i class="fa fa-line-chart"></i>
+                                <span class="sidebar-mini-hide">Graphs</span>
+                        </a>
+                    </li>
+                    <!--<li class="nav-main-heading"><span class="sidebar-mini-hide">Quickplay</span></li>
                     <li>
                         <a <% if (url.includes( "quickplay-general")) { %> class="active" <%}%> href="/quickplay-general">
                             <i class="fa fa-line-chart"></i>
@@ -52,12 +79,15 @@
                             <i class="fa fa-area-chart"></i>
                             <span class="sidebar-mini-hide">Heroes</span>
                         </a>
+                    </li>-->
+                    <li class="nav-main-heading">
+                        <span class="sidebar-mini-hide">OWstats</span>
                     </li>
-                    <li class="nav-main-heading"><span class="sidebar-mini-hide">OWstats</span></li>
                     <li>
-                        <a <% if (url.includes( "owstats-database")) { %> class="active" <%}%> href="/owstats-database">
-                            <i class="fa fa-bar-chart"></i>
-                            <span class="sidebar-mini-hide">Database</span>
+                        <a <% if (url.includes( "owstats-database")) { %> class="active"
+                            <%}%> href="/owstats-database">
+                                <i class="fa fa-cogs"></i>
+                                <span class="sidebar-mini-hide">Database</span>
                         </a>
                     </li>
                 </ul>
