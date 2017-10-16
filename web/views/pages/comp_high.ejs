@@ -1,0 +1,22 @@
+<%- include('../includes/html_header'); -%>
+
+    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+        <%- include('../includes/main_sidebar', {url: url}); -%>
+
+            <main id="main-container">
+                <%- include('../includes/breadcrumb', {breadcrumb: breadcrumb}); -%>
+
+                    <div class="content content-narrow">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <iframe x-src="https://overwatch.wdkgaming.de/grafana/dashboard-solo/db/competitive?orgId=1&panelId=8&theme=light" width="100%"
+                                    frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+            </main>
+            <%- include('../includes/main_footer', {footer: footer}); -%>
+    </div>
+
+    <%- include('../includes/html_footer'); -%>
