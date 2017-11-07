@@ -17,6 +17,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             battleTag = encodeURI(battleTag);
             var url = "http://" + config.host + ":" + config.port + "/api/" + config.version + "/u/" + battleTag + "/blob";
+            if (debug.verbose) console.log("OWAPI Call: " + url);
 
             var req = http.get(url, resp => {
                 if (debug.statistics) statistics.statistics.owapi.requests++;
@@ -27,6 +28,7 @@ module.exports = {
                 });
 
                 resp.on("end", () => {
+                    if (debug.verbose) console.log("OWAPI Response End for " + battleTag);
                     if (debug.statistics) {
                         statistics.statistics.owapi.responses++;
                         var duration = parseFloat((now() - beginTime) / 1000).toFixed(2);
@@ -39,9 +41,8 @@ module.exports = {
 
                 resp.on("error", err => {
                     if (debug.statistics) statistics.statistics.owapi.errors++;
-                    arguments.callee(battleTag).then(function(owapi) {
-                        resolve(owapi);
-                    });
+                    if (debug.verbose) console.log("OWAPI ERROR: " + JSON.stringify(err, undefined, 4));
+                    reject(err);
                 });
             });
 
@@ -54,9 +55,8 @@ module.exports = {
 
             req.on("error", function(err) {
                 if (debug.statistics) statistics.statistics.owapi.errors++;
-                arguments.callee(battleTag).then(function(owapi) {
-                    resolve(owapi);
-                });
+                if (debug.verbose) console.log("OWAPI ERROR: " + JSON.stringify(err, undefined, 4));
+                reject(err);
             });
         });
     }
