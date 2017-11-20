@@ -12,6 +12,11 @@ var comp_high = require("./routes/comp_high");
 var comp_average = require("./routes/comp_average");
 var comp_heroes = require("./routes/comp_heroes");
 var comp_graphs = require("./routes/comp_graphs");
+var quick_general = require("./routes/quick_general");
+var quick_heroes = require("./routes/quick_heroes");
+var quick_misc = require("./routes/quick_misc");
+var quick_week = require("./routes/quick_week");
+var quick_high = require("./routes/quick_high");
 var owstats_database = require("./routes/owstats_database");
 
 var app = express();
@@ -34,9 +39,11 @@ app.use("/competitive-high", comp_high);
 app.use("/competitive-average", comp_average);
 app.use("/competitive-heroes", comp_heroes);
 app.use("/competitive-graphs", comp_graphs);
-// app.use("/quickplay-general", comp_general);
-// app.use("/quickplay-average", comp_general);
-// app.use("/quickplay-heroes", comp_general);
+app.use("/quickplay-general", quick_general);
+app.use("/quickplay-heroes", quick_heroes);
+app.use("/quickplay-misc", quick_misc);
+app.use("/quickplay-week", quick_week);
+app.use("/quickplay-high", quick_high);
 app.use("/owstats-database", owstats_database);
 
 // catch 404 and forward to error handler
