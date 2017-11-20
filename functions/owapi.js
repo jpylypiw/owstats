@@ -32,7 +32,8 @@ module.exports = {
                     if (debug.statistics) {
                         statistics.statistics.owapi.responses++;
                         var duration = parseFloat((now() - beginTime) / 1000).toFixed(2);
-                        if (statistics.statistics.owapi.longestRequest < duration) statistics.statistics.owapi.longestRequest = duration;
+                        if (statistics.statistics.owapi.longestRequest < duration || statistics.statistics.owapi.longestRequest == 0)
+                            statistics.statistics.owapi.longestRequest = duration;
                         if (statistics.statistics.owapi.shortestRequest > duration || statistics.statistics.owapi.shortestRequest == 0)
                             statistics.statistics.owapi.shortestRequest = duration;
                     }
