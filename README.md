@@ -1,5 +1,7 @@
 # owstats
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/20c5fc0141f4491293cbb86666bc5570)](https://app.codacy.com/app/JPylypiw/owstats?utm_source=github.com&utm_medium=referral&utm_content=jpylypiw/owstats&utm_campaign=Badge_Grade_Dashboard)
+
 ## Description
 
 Private Overwatch statistics backend application.
