@@ -6,99 +6,95 @@
             <main id="main-container">
                 <%- include('../includes/breadcrumb', {breadcrumb: breadcrumb}); -%>
 
-                    <div class="content content-narrow">
-                        <div class="block">
-                            <div class="block-header bg-gray-lighter">
-                                <h3 class="block-title">Filter stats for your hero!</h3>
-                            </div>
-                            <div class="block-content" style="padding-top:0">
-                                <div class="row row-hero-filter">
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/ana.png" class="hero" id="ana" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/bastion.png" class="hero" id="bastion" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/doomfist.png" class="hero" id="doomfist" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/dva.png" class="hero" id="dva" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/genji.png" class="hero" id="genji" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/hanzo.png" class="hero" id="hanzo" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/junkrat.png" class="hero" id="junkrat" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/lucio.png" class="hero" id="lucio" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/mccree.png" class="hero" id="mccree" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/mei.png" class="hero" id="mei" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/mercy.png" class="hero" id="mercy" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/orisa.png" class="hero" id="orisa" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/pharah.png" class="hero" id="pharah" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/reaper.png" class="hero" id="reaper" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/reinhardt.png" class="hero" id="reinhardt" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/roadhog.png" class="hero" id="roadhog" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/soldier76.png" class="hero" id="soldier76" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/sombra.png" class="hero" id="sombra" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/symmetra.png" class="hero" id="symmetra" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/torbjorn.png" class="hero" id="torbjorn" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/tracer.png" class="hero" id="tracer" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/widowmaker.png" class="hero" id="widowmaker" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/winston.png" class="hero" id="winston" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/zarya.png" class="hero" id="zarya" />
-                                    </div>
-                                    <div class="col-md-2 col-lg-1" style="padding: 0.75em">
-                                        <img src="/images/heroes/zenyatta.png" class="hero" id="zenyatta" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="content">
                         <div class="row">
                             <div class="col-lg-12">
-                                <script type="text/javascript">
 
-                                </script>
+                                <div class="block">
+                                    <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#btabs-alt-overview">Overview</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-combat">Combat</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-eliminations">Eliminations</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-medals">Meldals</a>
+                                        </li>
+                                    </ul>
+                                    <div class="block-content tab-content">
+                                        <div class="tab-pane active" id="btabs-alt-overview">
+                                            <table class="table table-bordered table-striped js-dataTable-overview">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Playtime</th>
+                                                        <th>Games</th>
+                                                        <th>Win Rate</th>
+                                                        <th>On Fire</th>
+                                                        <th>E:D Ratio</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-combat">
+                                            <table class="table table-bordered table-striped js-dataTable-combat">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Elimns/G</th>
+                                                        <th>Obj Elimns/G</th>
+                                                        <th>Obj Time/G</th>
+                                                        <th></th>
+                                                        <th>Damage/G</th>
+                                                        <th>Healing/G</th>
+                                                        <th>Blocked/G</th>
+                                                        <th>Deaths/G</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-eliminations">
+                                            <table class="table table-bordered table-striped js-dataTable-eliminations">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>E:D Ratio</th>
+                                                        <th>Eliminations/G</th>
+                                                        <th>Solo Kills/G</th>
+                                                        <th>Final BLows/G</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-medals">
+                                            <table class="table table-bordered table-striped js-dataTable-medals">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Medals</th>
+                                                        <th>Gold</th>
+                                                        <th>Silver</th>
+                                                        <th>Bronze</th>
+                                                        <th>Cards</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <iframe class="hero-frame" x-src="https://overwatch.wdkgaming.de/grafana/dashboard-solo/db/competitive?orgId=1&panelId=12&theme=light"
-                                    width="100%" style="height: 700px" frameborder="0"></iframe>
                             </div>
                         </div>
                     </div>
@@ -107,4 +103,11 @@
             <%- include('../includes/main_footer', {footer: footer}); -%>
     </div>
 
-    <%- include('../includes/html_footer'); -%>
+    <script>
+        var heroDataOverview = <%- JSON.stringify(heroDataOverview) %>;
+        var heroDataCombat = <%- JSON.stringify(heroDataCombat) %>;
+        var heroDataEliminations = <%- JSON.stringify(heroDataEliminations) %>;
+        var heroDataMedals = <%- JSON.stringify(heroDataMedals) %>;
+    </script>
+
+    <%- include('../includes/html_footer', {footer: footer}); -%>

@@ -12,6 +12,14 @@ div#preloader {
     animation: breathing 2s ease infinite;
 }
 
+td.no-padding {
+    padding: 0 !important;
+}
+
+td.middle {
+    vertical-align: middle !important;
+}
+
 @-webkit-keyframes breathing {
     0% {
         background-size: 5em 5em;

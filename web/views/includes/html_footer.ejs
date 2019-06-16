@@ -1,5 +1,9 @@
 <script src="/javascripts/core.min.js"></script>
 <script src="/javascripts/owstats.min.js"></script>
+<% if (typeof footer !== 'undefined') { %>
+<% if (typeof footer.jsname !== 'undefined') { %>
+<script src="/javascripts/pages/<%= footer.jsname %>"></script>
+<% }} %>
 </body>
 
 </html>

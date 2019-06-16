@@ -6,11 +6,93 @@
             <main id="main-container">
                 <%- include('../includes/breadcrumb', {breadcrumb: breadcrumb}); -%>
 
-                    <div class="content content-narrow">
+                    <div class="content">
                         <div class="row">
                             <div class="col-lg-12">
-                                <iframe x-src="https://overwatch.wdkgaming.de/grafana/dashboard-solo/db/quickplay?refresh=5m&orgId=1&panelId=1&theme=light"
-                                    width="100%" frameborder="0"></iframe>
+
+                                <div class="block">
+                                    <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#btabs-alt-overview">Overview</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-combat">Combat</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-eliminations">Eliminations</a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="#btabs-alt-medals">Meldals</a>
+                                        </li>
+                                    </ul>
+                                    <div class="block-content tab-content">
+                                        <div class="tab-pane active" id="btabs-alt-overview">
+                                            <table class="table table-bordered table-striped js-dataTable-overview">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Playtime</th>
+                                                        <th>Wins</th>
+                                                        <th>On Fire</th>
+                                                        <th>E:D Ratio</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-combat">
+                                            <table class="table table-bordered table-striped js-dataTable-combat">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Elimns/G</th>
+                                                        <th>Obj Elimns/G</th>
+                                                        <th>Obj Time/G</th>
+                                                        <th>Damage/G</th>
+                                                        <th>Healing/G</th>
+                                                        <th>Blocked/G</th>
+                                                        <th>Deaths/G</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-eliminations">
+                                            <table class="table table-bordered table-striped js-dataTable-eliminations">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>E:D Ratio</th>
+                                                        <th>Eliminations/G</th>
+                                                        <th>Solo Kills/G</th>
+                                                        <th>Final BLows/G</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="btabs-alt-medals">
+                                            <table class="table table-bordered table-striped js-dataTable-medals">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Hero</th>
+                                                        <th>Player</th>
+                                                        <th>Medals</th>
+                                                        <th>Gold</th>
+                                                        <th>Silver</th>
+                                                        <th>Bronze</th>
+                                                        <th>Cards</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -19,4 +101,11 @@
             <%- include('../includes/main_footer', {footer: footer}); -%>
     </div>
 
-    <%- include('../includes/html_footer'); -%>
+    <script>
+        var heroDataOverview = <%- JSON.stringify(heroDataOverview) %>;
+        var heroDataCombat = <%- JSON.stringify(heroDataCombat) %>;
+        var heroDataEliminations = <%- JSON.stringify(heroDataEliminations) %>;
+        var heroDataMedals = <%- JSON.stringify(heroDataMedals) %>;
+    </script>
+
+    <%- include('../includes/html_footer', {footer: footer}); -%>
