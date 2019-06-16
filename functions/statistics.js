@@ -15,7 +15,10 @@ module.exports = {
             queries: {
                 select: 0,
                 insert: 0,
-                update: 0
+                update: 0,
+                delete: 0,
+                load_data: 0,
+                insert_file: 0
             }
         },
         owapi: {
