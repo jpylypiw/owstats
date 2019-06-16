@@ -1,3 +1,9 @@
+# Lockfile
+.running
+
+# Teporary Directory
+tmp/
+
 # Configuration
 config/*.js
 
