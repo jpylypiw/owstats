@@ -10,7 +10,7 @@
         "private": true
     },
     "dependencies": {
-        "mysql": "^2.15.0",
+        "mysql": "^2.17.1",
         "performance-now": "^2.1.0"
     },
     "devDependencies": {},
