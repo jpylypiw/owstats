@@ -7,5 +7,6 @@ module.exports = {
     host: "localhost",
     user: "",
     password: "",
-    database: "owstats"
+    database: "owstats",
+    tmppath: "/opt/owstats/tmp/"
 };
