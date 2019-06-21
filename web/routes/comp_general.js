@@ -21,10 +21,10 @@ router.get("/", async function (req, res, next) {
             "gs_new.games_won, " +
             "gs_new.games_tied, " +
             "gs_new.games_lost, " +
-            "(gs_new.games_played - gs_old.games_played) games_played_change, " +
-            "(gs_new.games_won - gs_old.games_won) games_won_change, " +
-            "(gs_new.games_tied - gs_old.games_tied) games_tied_change, " +
-            "(gs_new.games_lost - gs_old.games_lost) games_lost_change, " +
+            "(cast(gs_new.games_played as signed) - cast(gs_old.games_played as signed)) games_played_change, " +
+            "(cast(gs_new.games_won as signed) - cast(gs_old.games_won as signed)) games_won_change, " +
+            "(cast(gs_new.games_tied as signed) - cast(gs_old.games_tied as signed)) games_tied_change, " +
+            "(cast(gs_new.games_lost as signed) - cast(gs_old.games_lost as signed)) games_lost_change, " +
             "os_new.win_rate, " +
             "IFNULL(os_new.win_rate - os_old.win_rate, 0) AS win_rate_change, " +
             "(gs_new.time_spent_on_fire / gs_new.time_played) as on_fire, " +
